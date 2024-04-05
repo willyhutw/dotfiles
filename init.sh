@@ -78,6 +78,20 @@ function copy_vimrc {
     echo "vim config has been updated!"
 }
 
+function setup_nodejs {
+    echo "installing nodejs ..."
+    tag="v0.39.7"
+    curl -sLO https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh
+    chmod +x install.sh
+    ./install.sh
+    export NVM_DIR="$HOME/.config/nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    nvm install --lts
+    rm ./install.sh
+    echo "nodejs is ready!"
+}
+
 check_pkgs
 check_btop
 check_alacritty
@@ -85,5 +99,6 @@ copy_alacritty_conf
 setup_tpm
 copy_tmux_conf
 copy_vimrc
+setup_nodejs
 
 exit 0
