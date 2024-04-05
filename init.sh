@@ -93,11 +93,14 @@ function check_neovim {
 	echo "neovim is ready!"
 }
 
-function setup_lazyvim {
-	echo "installing lazyvim ..."
-	git clone https://github.com/LazyVim/starter $HOME/.config/nvim
-	rm -rf $HOME/.config/nvim/.git
-	echo "nodejs is ready!"
+function setup_lazynvim {
+	echo "installing lazynvim ..."
+	conf="$HOME/.config/nvim"
+	rm -rf $HOME/.local/share/nvim
+	rm -rf $HOME/.local/state/nvim
+	rm -rf $conf
+	cp -rf ./nvim $conf
+	echo "lazynvim is ready!"
 }
 
 function setup_nodejs {
@@ -135,7 +138,7 @@ setup_tpm
 copy_tmux_conf
 copy_vimrc
 check_neovim
-setup_lazyvim
+setup_lazynvim
 setup_nodejs
 setup_nerdfonts
 
