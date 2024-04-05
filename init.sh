@@ -21,12 +21,12 @@ function check_btop {
     which btop &>/dev/null
     if [ $? != 0 ]; then
         echo "installing btop ..."
-	tag="v1.3.2"
-	curl -sLO https://github.com/aristocratos/btop/releases/download/$tag/btop-i686-linux-musl.tbz
-	tar -xf btop-i686-linux-musl.tbz
-	cd btop
-	sudo ./install.sh
-	cd ..
+        tag="v1.3.2"
+	      curl -sLO https://github.com/aristocratos/btop/releases/download/$tag/btop-i686-linux-musl.tbz
+	      tar -xf btop-i686-linux-musl.tbz
+	      cd btop
+	      sudo ./install.sh
+	      cd ..
     fi
     echo "btop is ready!"
 }
@@ -36,7 +36,7 @@ function check_alacritty {
     which alacritty &>/dev/null
     if [ $? != 0 ]; then
         echo "installing alacritty ..."
-	sudo snap install --classic alacritty
+        sudo snap install --classic alacritty
     fi
     echo "alacritty is ready!"
 }
@@ -78,6 +78,20 @@ function copy_vimrc {
     echo "vim config has been updated!"
 }
 
+function check_neovim {
+    echo "checking neovim ..."
+    tag="v0.9.5"
+    which nvim &>/dev/null
+    if [ $? != 0 ]; then
+        echo "installing neovim ..."
+        curl -sLO https://github.com/neovim/neovim/releases/download/$tag/nvim-linux64.tar.gz
+        sudo tar -zxf nvim-linux64.tar.gz -C /opt
+        sudo ln -s /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
+        rm nvim-linux64.tar.gz
+    fi
+    echo "neovim is ready!"
+}
+
 function setup_nodejs {
     echo "installing nodejs ..."
     tag="v0.39.7"
@@ -99,6 +113,7 @@ copy_alacritty_conf
 setup_tpm
 copy_tmux_conf
 copy_vimrc
+check_neovim
 setup_nodejs
 
 exit 0
