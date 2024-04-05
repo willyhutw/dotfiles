@@ -117,7 +117,7 @@ function setup_nodejs {
 function setup_nerdfonts {
 	echo "installing nerd fonts ..."
 	tag="v3.2.0"
-	fonts=("FiraCode" "FiraMono" "Hack" "JetBrainsMono" "UbuntuMono")
+	fonts=("FiraMono" "Hack" "UbuntuMono")
 	for font in ${fonts[@]}; do
 		curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/download/$tag/$font.zip
 		sudo unzip -qo $font.zip -d /usr/local/share/fonts
@@ -136,7 +136,7 @@ copy_tmux_conf
 copy_vimrc
 check_neovim
 setup_lazyvim
-#setup_nodejs
+setup_nodejs
 setup_nerdfonts
 
 exit 0
