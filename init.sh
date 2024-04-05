@@ -2,20 +2,19 @@
 
 set -u
 
-pkgs=("vim" "git" "tmux" "curl" "xsel")
-
 function check_pkgs {
-    for pkg in "${pkgs[@]}"; do
-        echo "checking $pkg ..."
-        which $pkg &>/dev/null
-        if [ $? != 0 ]; then
-            echo "installing $pkg ..."
-	    sudo apt install -y $pkg
-        fi
-        echo "$pkg is ready!"
-    done
+    sudo apt update \
+    && sudo apt install -y \
+        vim \
+        git \
+        tmux \
+        curl \
+        python3-pip \
+        xsel \
+        acpi \
+        sysstat \
+        lm-sensors
 }
-
 
 function check_btop {
     echo "checking btop ..."
