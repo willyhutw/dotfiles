@@ -119,6 +119,23 @@ function setup_nodejs {
 	echo "nodejs is ready!"
 }
 
+function setup_go {
+	echo "installing go ..."
+	filename="go1.22.2.linux-amd64.tar.gz"
+	targetDir="/usr/local"
+	curl -sLO https://go.dev/dl/$filename
+	sudo rm -rf $targetDir/go && sudo tar -C $targetDir -xzf $filename
+	rm ./$filename
+	echo "go is ready!"
+}
+
+function setup_python_venv {
+	echo "installing python venv ..."
+	sudo pip install virtualenv
+	virtualenv venv
+	echo "python venv is ready!"
+}
+
 function setup_nerdfonts {
 	echo "installing nerd fonts ..."
 	tag="v3.2.0"
@@ -132,6 +149,12 @@ function setup_nerdfonts {
 	echo "nerd fonts is ready!"
 }
 
+function update_bashrc {
+	echo "updating bashrc ..."
+	cp -f ./bashrc $HOME/.bashrc
+	echo "bashrc has been updated!"
+}
+
 check_pkgs
 check_btop
 check_alacritty
@@ -142,6 +165,9 @@ copy_vimrc
 check_neovim
 setup_lazynvim
 setup_nodejs
+setup_go
+setup_python_venv
 setup_nerdfonts
+update_bashrc
 
 exit 0
