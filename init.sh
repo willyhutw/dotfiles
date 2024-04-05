@@ -43,40 +43,40 @@ function check_alacritty {
 	echo "alacritty is ready!"
 }
 
-function copy_alacritty_conf {
-	echo "copying alacritty config ..."
-	conf_path=$HOME/.config/alacritty
-	mkdir -p $conf_path/themes
-	cp ./alacritty/alacritty.toml $conf_path/alacritty.toml
-	cp ./alacritty/themes/gruvbox_dark.toml $conf_path/themes/gruvbox_dark.toml
+function update_alacritty_conf {
+	echo "updating alacritty config ..."
+	destDir=$HOME/.config/alacritty
+	mkdir -p $destDir/themes
+	cp ./alacritty/alacritty.toml $destDir/alacritty.toml
+	cp ./alacritty/themes/gruvbox_dark.toml $destDir/themes/gruvbox_dark.toml
 	echo "alacritty config has been updated!"
 }
 
 function setup_tpm {
 	tag="3.1.0"
 	url="https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz"
-	path="$HOME/.tmux/plugins"
+	destDir="$HOME/.tmux/plugins"
 	echo "checking tpm ..."
-	if [ ! -d $path/tpm ]; then
+	if [ ! -d $destDir/tpm ]; then
 		echo "installing tpm ..."
 		curl -sLO $url
-		tar -zxf v$tag.tar.gz -C $path
-		mv $path/tpm-$tag $path/tpm
+		tar -zxf v$tag.tar.gz -C $destDir
+		mv $destDir/tpm-$tag $destDir/tpm
 		rm v$tag.tar.gz
 	fi
 	echo "tpm is ready!"
 }
 
-function copy_tmux_conf {
-	echo "copying tmux config ..."
-	conf_path=$HOME/.config/tmux
-	mkdir -p $conf_path
-	cp ./tmux/tmux.conf $conf_path/tmux.conf
+function update_tmux_conf {
+	echo "updating tmux config ..."
+	destDir=$HOME/.config/tmux
+	mkdir -p $destDir
+	cp ./tmux/tmux.conf $destDir/tmux.conf
 	echo "tmux config has been updated!"
 }
 
-function copy_vimrc {
-	echo "copying vim config ..."
+function update_vimrc {
+	echo "updating vim config ..."
 	cp ./vim/vimrc $HOME/.vimrc
 	echo "vim config has been updated!"
 }
@@ -84,25 +84,26 @@ function copy_vimrc {
 function check_neovim {
 	echo "checking neovim ..."
 	tag="v0.9.5"
+	filename="nvim-linux64"
 	which nvim &>/dev/null
 	if [ $? != 0 ]; then
 		echo "installing neovim ..."
-		curl -sLO https://github.com/neovim/neovim/releases/download/$tag/nvim-linux64.tar.gz
-		sudo tar -zxf nvim-linux64.tar.gz -C /opt
-		sudo ln -s /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
-		rm nvim-linux64.tar.gz
+		curl -sLO https://github.com/neovim/neovim/releases/download/$tag/$filename.tar.gz
+		sudo tar -zxf $filename.tar.gz -C /opt
+		sudo ln -s /opt/$filename/bin/nvim /usr/local/bin/nvim
+		rm $filename.tar.gz
 	fi
 	echo "neovim is ready!"
 }
 
-function setup_lazynvim {
-	echo "installing lazynvim ..."
-	conf="$HOME/.config/nvim"
+function setup_lazyvim {
+	echo "installing lazyvim ..."
+	destDir="$HOME/.config/nvim"
 	rm -rf $HOME/.local/share/nvim
 	rm -rf $HOME/.local/state/nvim
-	rm -rf $conf
-	cp -rf ./nvim $conf
-	echo "lazynvim is ready!"
+	rm -rf $destDir
+	cp -rf ./nvim $destDir
+	echo "lazyvim is ready!"
 }
 
 function setup_nodejs {
@@ -149,6 +150,49 @@ function setup_nerdfonts {
 	echo "nerd fonts is ready!"
 }
 
+function check_kubectl {
+	echo "checking kubectl ..."
+	tag="v1.28.7"
+	which kubectl &>/dev/null
+	if [ $? != 0 ]; then
+		echo "installing kubectl ..."
+		curl -sLO https://dl.k8s.io/release/$tag/bin/linux/amd64/kubectl
+		sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+		rm kubectl
+	fi
+	echo "kubectl is ready!"
+}
+
+function check_k9s {
+	echo "checking k9s ..."
+	tag="v0.32.4"
+	filename="k9s_Linux_amd64.tar.gz"
+	which k9s &>/dev/null
+	if [ $? != 0 ]; then
+		echo "installing k9s ..."
+		curl -sLO https://github.com/derailed/k9s/releases/download/$tag/$filename
+		sudo tar -zxf $filename -C /usr/local/bin
+		rm $filename
+	fi
+	echo "k9s is ready!"
+}
+
+function check_helm {
+	echo "checking helm ..."
+	tag="v3.14.3"
+	filename="helm-$tag-linux-amd64.tar.gz"
+	which helm &>/dev/null
+	if [ $? != 0 ]; then
+		echo "installing helm ..."
+		curl -sLO https://get.helm.sh/$filename
+		tar -zxf $filename
+		sudo mv ./linux-amd64/helm /usr/local/bin/
+		rm -rf ./linux-amd64
+		rm $filename
+	fi
+	echo "helm is ready!"
+}
+
 function update_bashrc {
 	echo "updating bashrc ..."
 	cp -f ./bashrc $HOME/.bashrc
@@ -158,16 +202,19 @@ function update_bashrc {
 check_pkgs
 check_btop
 check_alacritty
-copy_alacritty_conf
+update_alacritty_conf
 setup_tpm
-copy_tmux_conf
-copy_vimrc
+update_tmux_conf
+update_vimrc
 check_neovim
-setup_lazynvim
+setup_lazyvim
 setup_nodejs
 setup_go
 setup_python_venv
 setup_nerdfonts
+check_kubectl
+check_k9s
+check_helm
 update_bashrc
 
 exit 0
