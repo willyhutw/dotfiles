@@ -177,7 +177,7 @@ function check_k9s {
 	if [ $? != 0 ]; then
 		echo "installing k9s ..."
 		tag="v0.32.4"
-	  filename="k9s_Linux_amd64.tar.gz"
+		filename="k9s_Linux_amd64.tar.gz"
 		curl -sLO https://github.com/derailed/k9s/releases/download/$tag/$filename
 		sudo tar -zxf $filename -C /usr/local/bin
 		rm $filename
