@@ -12,4 +12,10 @@ return {
   { import = "lazyvim.plugins.extras.lang.typescript" },
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.tailwind" },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      timeout = 10000,
+    },
+  },
 }
