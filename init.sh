@@ -2,7 +2,7 @@
 
 set -u
 
-function check_pkgs {
+function install_pkgs {
 	sudo apt update &&
 		sudo apt install -y \
 			vim \
@@ -52,13 +52,13 @@ function update_alacritty_conf {
 	echo "alacritty config has been updated!"
 }
 
-function setup_tpm {
-	tag="3.1.0"
-	url="https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz"
-	destDir="$HOME/.tmux/plugins"
+function check_tpm {
 	echo "checking tpm ..."
 	if [ ! -d $destDir/tpm ]; then
 		echo "installing tpm ..."
+		tag="3.1.0"
+		url="https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz"
+		destDir="$HOME/.tmux/plugins"
 		curl -sLO $url
 		tar -zxf v$tag.tar.gz -C $destDir
 		mv $destDir/tpm-$tag $destDir/tpm
@@ -106,27 +106,35 @@ function setup_lazyvim {
 	echo "lazyvim is ready!"
 }
 
-function setup_nodejs {
-	echo "installing nodejs ..."
-	tag="v0.39.7"
-	curl -sLO https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh
-	chmod +x install.sh
-	./install.sh
-	export NVM_DIR="$HOME/.config/nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-	nvm install --lts
-	rm ./install.sh
-	echo "nodejs is ready!"
+function check_nvm {
+	echo "checking nvm & node ..."
+	which nvm &>/dev/null
+	if [ $? != 0 ]; then
+		echo "installing nvm & node ..."
+		tag="v0.39.7"
+		curl -sLO https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh
+		chmod +x install.sh
+		./install.sh
+		export NVM_DIR="$HOME/.config/nvm"
+		[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+		[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+		nvm install --lts
+		rm ./install.sh
+	fi
+	echo "nvm & node is ready!"
 }
 
-function setup_go {
-	echo "installing go ..."
-	filename="go1.22.2.linux-amd64.tar.gz"
-	targetDir="/usr/local"
-	curl -sLO https://go.dev/dl/$filename
-	sudo rm -rf $targetDir/go && sudo tar -C $targetDir -xzf $filename
-	rm ./$filename
+function check_go {
+	echo "checking go ..."
+	which go &>/dev/null
+	if [ $? != 0 ]; then
+		echo "installing go ..."
+		filename="go1.22.2.linux-amd64.tar.gz"
+		targetDir="/usr/local"
+		curl -sLO https://go.dev/dl/$filename
+		sudo rm -rf $targetDir/go && sudo tar -C $targetDir -xzf $filename
+		rm ./$filename
+	fi
 	echo "go is ready!"
 }
 
@@ -139,9 +147,9 @@ function setup_python_venv {
 
 function setup_nerdfonts {
 	echo "installing nerd fonts ..."
-	tag="v3.2.0"
 	fonts=("FiraMono" "Hack" "UbuntuMono")
 	for font in ${fonts[@]}; do
+		tag="v3.2.0"
 		curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/download/$tag/$font.zip
 		sudo unzip -qo $font.zip -d /usr/local/share/fonts
 		rm $font.zip
@@ -152,10 +160,10 @@ function setup_nerdfonts {
 
 function check_kubectl {
 	echo "checking kubectl ..."
-	tag="v1.28.7"
 	which kubectl &>/dev/null
 	if [ $? != 0 ]; then
 		echo "installing kubectl ..."
+		tag="v1.28.7"
 		curl -sLO https://dl.k8s.io/release/$tag/bin/linux/amd64/kubectl
 		sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 		rm kubectl
@@ -165,11 +173,11 @@ function check_kubectl {
 
 function check_k9s {
 	echo "checking k9s ..."
-	tag="v0.32.4"
-	filename="k9s_Linux_amd64.tar.gz"
 	which k9s &>/dev/null
 	if [ $? != 0 ]; then
 		echo "installing k9s ..."
+		tag="v0.32.4"
+	  filename="k9s_Linux_amd64.tar.gz"
 		curl -sLO https://github.com/derailed/k9s/releases/download/$tag/$filename
 		sudo tar -zxf $filename -C /usr/local/bin
 		rm $filename
@@ -179,11 +187,11 @@ function check_k9s {
 
 function check_helm {
 	echo "checking helm ..."
-	tag="v3.14.3"
-	filename="helm-$tag-linux-amd64.tar.gz"
 	which helm &>/dev/null
 	if [ $? != 0 ]; then
 		echo "installing helm ..."
+		tag="v3.14.3"
+		filename="helm-$tag-linux-amd64.tar.gz"
 		curl -sLO https://get.helm.sh/$filename
 		tar -zxf $filename
 		sudo mv ./linux-amd64/helm /usr/local/bin/
@@ -199,17 +207,17 @@ function update_bashrc {
 	echo "bashrc has been updated!"
 }
 
-check_pkgs
+install_pkgs
 check_btop
 check_alacritty
 update_alacritty_conf
-setup_tpm
+check_tpm
 update_tmux_conf
 update_vimrc
 check_neovim
 setup_lazyvim
-setup_nodejs
-setup_go
+check_nvm
+check_go
 setup_python_venv
 setup_nerdfonts
 check_kubectl
