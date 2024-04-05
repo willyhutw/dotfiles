@@ -13,7 +13,9 @@ function check_pkgs {
 			xsel \
 			acpi \
 			sysstat \
-			lm-sensors
+			lm-sensors \
+			ripgrep \
+			fd-find
 }
 
 function check_btop {
