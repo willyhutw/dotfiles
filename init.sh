@@ -18,9 +18,43 @@ function essentials {
 			fd-find
 }
 
-#TODO: Build from source.
 function install_alacritty {
-	sudo snap install --classic alacritty
+	# https://github.com/alacritty/alacritty/blob/master/INSTALL.md
+	sudo apt install -qqy \
+		cmake \
+		pkg-config \
+		libfreetype6-dev \
+		libfontconfig1-dev \
+		libxcb-xfixes0-dev \
+		libxkbcommon-dev \
+		python3 \
+		gzip \
+		scdoc
+
+	tag="v0.13.2"
+	git clone --depth 1 --branch $tag https://github.com/alacritty/alacritty.git
+	cd alacritty
+
+	# cargo build --release
+	cargo build --release --no-default-features --features=x11
+	# cargo build --release --no-default-features --features=wayland
+
+	sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+
+	sudo cp target/release/alacritty /usr/local/bin
+	sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+	sudo desktop-file-install extra/linux/Alacritty.desktop
+	sudo update-desktop-database
+
+	sudo mkdir -p /usr/local/share/man/man1
+	scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+	scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+	sudo mkdir -p /usr/local/share/man/man5
+	scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
+	scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz > /dev/null
+
+	cd ..
+	rm -rf alacritty
 }
 
 function config_alacritty {
@@ -30,6 +64,7 @@ function config_alacritty {
 	mkdir -p $cfgDir/themes
 	cp .$prog/$prog.toml $cfgDir/$prog.toml
 	cp .$prog/themes/$theme.toml $cfgDir/themes/$theme.toml
+	cp -rf .bash_completion $HOME
 }
 
 function install_btop {
@@ -119,6 +154,18 @@ function install_nvm {
 	fi
 }
 
+function install_rust {
+	rust="$HOME/.cargo/env"
+	if [ -f $rust ]; then
+		. $HOME/.cargo/env
+	else
+		curl -sSf https://sh.rustup.rs | sh -s -- -y
+		. $HOME/.cargo/env
+		rustup override set stable
+		rustup update stable
+	fi
+}
+
 function config_tmux {
 	cfgDir=$HOME/.config/tmux
 	mkdir -p $cfgDir
@@ -146,7 +193,7 @@ function install_virtualenv {
 }
 
 function installProgs {
-	progs=(alacritty btop go helm k9s kubectl nvim nvm virtualenv)
+	progs=(rust alacritty btop go helm k9s kubectl nvim nvm virtualenv)
 	for prog in "${progs[@]}"; do
 		echo "checking $prog ..."
 		if ! command -v $prog &>/dev/null; then
