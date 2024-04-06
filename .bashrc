@@ -124,6 +124,9 @@ export NVM_DIR="$HOME/.config/nvm"
 ### go
 export PATH=$PATH:/usr/local/go/bin
 
+### rust
+. "$HOME/.cargo/env"
+
 ### venv
 source $HOME/venv/bin/activate
 
@@ -133,4 +136,7 @@ alias k="kubectl"
 complete -o default -F __start_kubectl k
 export kgen="--dry-run=client -o yaml"
 export kforce="--force --grace-period 0"
+
+### alacritty
+source ~/.bash_completion/alacritty
 
