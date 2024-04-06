@@ -28,8 +28,8 @@ function config_alacritty {
 	theme="gruvbox_dark"
 	cfgDir=$HOME/.config/$prog
 	mkdir -p $cfgDir/themes
-	cp ./$prog/$prog.toml $cfgDir/$prog.toml
-	cp ./$prog/themes/$theme.toml $cfgDir/themes/$theme.toml
+	cp .$prog/$prog.toml $cfgDir/$prog.toml
+	cp .$prog/themes/$theme.toml $cfgDir/themes/$theme.toml
 }
 
 function install_btop {
@@ -122,7 +122,7 @@ function install_nvm {
 function config_tmux {
 	cfgDir=$HOME/.config/tmux
 	mkdir -p $cfgDir
-	cp ./tmux/tmux.conf $cfgDir/tmux.conf
+	cp .tmux/tmux.conf $cfgDir/tmux.conf
 }
 
 function config_tpm {
@@ -137,13 +137,12 @@ function config_tpm {
 }
 
 function config_vim {
-	cp ./vim/vimrc $HOME/.vimrc
+	cp .vim/.vimrc $HOME
 }
 
 function install_virtualenv {
-	venvName="venv"
 	sudo pip -q install virtualenv
-	virtualenv -q $venvName
+	virtualenv -q $HOME/venv
 }
 
 function installProgs {
@@ -168,13 +167,13 @@ function configProgs {
 }
 
 function updateBashrc {
-	cp -f ./bashrc $HOME/.bashrc
+	cp .bashrc $HOME
 	echo "bashrc has been updated!"
 }
 
-essentials
-installProgs
-configProgs
-updateBashrc
+ essentials
+ installProgs
+ configProgs
+ updateBashrc
 
 exit 0
