@@ -5,7 +5,6 @@ set -u
 function essentials {
 	sudo apt update -qq \
 		&& sudo apt install -qqy \
-			vim \
 			git \
 			tmux \
 			curl \
@@ -143,7 +142,7 @@ function config_nvim {
 	rm -rf $HOME/.local/share/nvim
 	rm -rf $HOME/.local/state/nvim
 	rm -rf $destDir
-	cp -rf ./nvim $destDir
+	cp -rf nvim $destDir
 }
 
 function install_nvm {
@@ -184,7 +183,7 @@ function config_tpm {
 }
 
 function config_vim {
-	cp .vim/.vimrc $HOME
+	cp vim/vimrc $HOME/.vimrc
 }
 
 function install_virtualenv {
@@ -205,7 +204,7 @@ function installProgs {
 }
 
 function configProgs {
-	progs=(alacritty nerdfonts tmux tpm vim)
+	progs=(alacritty nerdfonts nvim tmux tpm)
 	for prog in "${progs[@]}"; do
 		echo "configuring $prog ..."
 		config_$prog
