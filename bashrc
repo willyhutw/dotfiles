@@ -123,6 +123,7 @@ export NVM_DIR="$HOME/.config/nvm"
 
 ### go
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 
 ### rust
 . "$HOME/.cargo/env"
