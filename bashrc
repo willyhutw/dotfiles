@@ -140,3 +140,6 @@ export kforce="--force --grace-period 0"
 ### alacritty
 source ~/.bash_completion/alacritty
 
+### alias
+alias vi="nvim"
+alias vim="nvim"
