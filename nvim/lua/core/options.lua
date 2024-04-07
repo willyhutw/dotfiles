@@ -1,15 +1,15 @@
 local opt = vim.opt
 
-opt.background = 'dark'
-opt.clipboard = 'unnamedplus'
+opt.background = "dark"
+opt.clipboard = "unnamedplus"
 opt.cursorline = true
 opt.expandtab = true
 opt.ignorecase = true
-opt.mouse = 'a'
+opt.mouse = "a"
 opt.number = true
 opt.relativenumber = true
 opt.shiftwidth = 2
-opt.signcolumn = 'yes'
+opt.signcolumn = "yes"
 opt.smartcase = true
 opt.softtabstop = 2
 opt.splitbelow = true
