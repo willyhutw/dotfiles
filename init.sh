@@ -228,4 +228,11 @@ installProgs
 configProgs
 updateBashrc
 
+# TODO:: Install formatters
+# https://github.com/mvdan/sh/releases/tag/v3.8.0
+# https://github.com/JohnnyMorganz/StyLua/releases/tag/v0.20.0
+# npm install -g prettier
+
+# TODO:: Try LSP & completion nvim plugins.
+
 exit 0
