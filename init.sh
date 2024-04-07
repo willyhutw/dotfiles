@@ -214,13 +214,13 @@ function configProgs {
 }
 
 function updateBashrc {
-	cp .bashrc $HOME
+	cp bashrc $HOME/.bashrc
 	echo "bashrc has been updated!"
 }
 
- essentials
- installProgs
- configProgs
- updateBashrc
+essentials
+installProgs
+configProgs
+updateBashrc
 
 exit 0
