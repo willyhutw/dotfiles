@@ -58,12 +58,14 @@ function install_alacritty {
 
 function config_alacritty {
 	prog="alacritty"
-	theme="gruvbox_dark"
-	cfgDir=$HOME/.config/$prog
-	mkdir -p $cfgDir/themes
-	cp .$prog/$prog.toml $cfgDir/$prog.toml
-	cp .$prog/themes/$theme.toml $cfgDir/themes/$theme.toml
-	cp -rf .bash_completion $HOME
+  cfgDir=$HOME/.config/$prog
+  mkdir -p $cfgDir/themes
+  cp $prog/$prog.toml $cfgDir
+  themes=("tokyonight_night" "gruvbox_dark")
+  for theme in "${themes[@]}"; do
+    cp $prog/themes/$theme.toml $cfgDir/themes
+  done
+  cp -rf bash_completion $HOME/.bash_completion
 }
 
 function install_btop {
