@@ -168,9 +168,13 @@ function install_rust {
 }
 
 function config_tmux {
-	cfgDir=$HOME/.config/tmux
-	mkdir -p $cfgDir
-	cp .tmux/tmux.conf $cfgDir/tmux.conf
+  cfgDir=$HOME/.config/tmux
+  mkdir -p $cfgDir/themes
+  cp tmux/tmux.conf $cfgDir
+  themes=("tokyonight_night" "gruvbox_dark")
+  for theme in "${themes[@]}"; do
+    cp tmux/themes/$theme.tmux $cfgDir/themes
+  done
 }
 
 function config_tpm {
