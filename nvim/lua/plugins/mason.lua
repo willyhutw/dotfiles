@@ -2,13 +2,15 @@ return {
 	-- https://github.com/williamboman/mason.nvim
 	"williamboman/mason.nvim",
 	enabled = true,
-	opts = {
-		ensure_installed = {
-			"eslint-lsp",
-			"gopls",
-			"lua-language-server",
-			"prettierd",
-			"typescript-language-server",
-		},
-	},
+	config = function()
+		require("mason").setup({
+			ui = {
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		})
+	end,
 }
