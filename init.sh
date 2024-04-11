@@ -67,6 +67,13 @@ function config_alacritty {
 	done
 }
 
+function install_argocd {
+	tag="v2.10.6"
+	prog="/usr/local/bin/argocd"
+	sudo curl -sSLf -o $prog https://github.com/argoproj/argo-cd/releases/download/$tag/argocd-linux-amd64
+	sudo chmod +x $prog
+}
+
 function install_btop {
 	tag="v1.3.2"
 	prog="btop"
@@ -197,7 +204,7 @@ function install_virtualenv {
 }
 
 function installProgs {
-	progs=(rust alacritty btop go helm k9s kubectl nvim nvm virtualenv)
+	progs=(rust alacritty argocd btop go helm k9s kubectl nvim nvm virtualenv)
 	for prog in "${progs[@]}"; do
 		echo "checking $prog ..."
 		if ! command -v $prog &>/dev/null; then
