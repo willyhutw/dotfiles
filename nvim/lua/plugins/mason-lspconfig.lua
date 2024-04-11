@@ -9,6 +9,7 @@ return {
 	config = function()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
+				"bashls",
 				"gopls",
 				"lua_ls",
 				"tsserver",
