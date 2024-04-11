@@ -65,7 +65,6 @@ function config_alacritty {
 	for theme in "${themes[@]}"; do
 		cp $prog/themes/$theme.toml $cfgDir/themes
 	done
-	cp -rf bash_completion $HOME/.bash_completion
 }
 
 function install_btop {
@@ -219,6 +218,11 @@ function configProgs {
 }
 
 function updateBashrc {
+	# bash_completion
+	mkdir -p $HOME/.bash_completion
+	cp bash_completion/* $HOME/.bash_completion/
+
+	# bashrc
 	cp bashrc $HOME/.bashrc
 	echo "bashrc has been updated!"
 }
