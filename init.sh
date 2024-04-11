@@ -223,15 +223,28 @@ function updateBashrc {
 	echo "bashrc has been updated!"
 }
 
+function installFormatters {
+	# gofumpt, goimports
+	go install mvdan.cc/gofumpt@latest
+	go install golang.org/x/tools/cmd/goimports@latest
+
+	# prettier
+	npm install --save-dev --save-exact prettier
+
+	# stylua
+	curl -sLO https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux-x86_64.zip
+	sudo unzip stylua-linux-x86_64.zip -d /usr/local/bin/
+
+	# shfmt
+	sudo curl -sSLf -o /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.8.0/shfmt_v3.8.0_linux_amd64
+	sudo chmod +x /usr/local/bin/shfmt
+}
+
 essentials
 installProgs
 configProgs
 updateBashrc
-
-# TODO:: Install formatters
-# https://github.com/mvdan/sh/releases/tag/v3.8.0
-# https://github.com/JohnnyMorganz/StyLua/releases/tag/v0.20.0
-# npm install -g prettier
+installFormatters
 
 # TODO:: Try LSP & completion nvim plugins.
 

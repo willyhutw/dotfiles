@@ -6,13 +6,13 @@ return {
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
-				typescript = { "prettierd" },
-				typescriptreact = { "prettierd" },
-				css = { "prettierd" },
-				html = { "prettierd" },
-				json = { "prettierd" },
-				yaml = { "prettierd" },
-				markdown = { "prettierd" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				css = { "prettier" },
+				html = { "prettier" },
+				json = { "prettier" },
+				yaml = { "prettier" },
+				markdown = { "prettier" },
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports" },
 				sh = { "shfmt" },
