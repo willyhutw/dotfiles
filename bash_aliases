@@ -5,16 +5,15 @@ alias vim="nvim"
 
 # kubectl
 alias k="kubectl"
-complete -o default -F __start_kubectl k
+complete -F __start_kubectl k
 
 # helm
 alias h="helm"
-complete -o default -F __start_helm h
+complete -F __start_helm h
 
-# helm
+# argocd
 alias acd="argocd"
-complete -o default -F __start_argocd acd
-
+complete -F __start_argocd acd
 
 # git
 alias g="git"
