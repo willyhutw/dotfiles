@@ -132,6 +132,6 @@ source $HOME/venv/bin/activate
 
 ### reload bash_completion
 cmds=$(ls .bash_completion)
-for cmd in "${cmds[@]}"; do
-	source ~/.bash_completion/$cmd
+for cmd in ${cmds[@]}; do
+	source .bash_completion/$cmd
 done
