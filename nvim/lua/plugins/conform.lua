@@ -11,10 +11,9 @@ return {
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
-				yaml = { "prettier" },
-				markdown = { "prettier" },
+				yaml = { "yamlfmt" },
 				lua = { "stylua" },
-				go = { "gofumpt", "goimports" },
+				go = { "gofumpt", "goimports-reviser" },
 				sh = { "shfmt" },
 			},
 			format_on_save = {

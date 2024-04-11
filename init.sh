@@ -228,20 +228,26 @@ function updateBashrc {
 }
 
 function installFormatters {
-	# gofumpt, goimports
+	# gofumpt, goimports-reviser
 	go install mvdan.cc/gofumpt@latest
-	go install golang.org/x/tools/cmd/goimports@latest
+	go install github.com/incu6us/goimports-reviser/v3@latest
 
 	# prettier
-	npm install --save-dev --save-exact prettier
+	npm install --global --force prettier
 
 	# stylua
 	curl -sLO https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux-x86_64.zip
-	sudo unzip stylua-linux-x86_64.zip -d /usr/local/bin/
+	sudo unzip -o stylua-linux-x86_64.zip -d /usr/local/bin/
+	rm -f stylua-linux-x86_64.zip
 
 	# shfmt
 	sudo curl -sSLf -o /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.8.0/shfmt_v3.8.0_linux_amd64
 	sudo chmod +x /usr/local/bin/shfmt
+
+	# yamlfmt
+	curl -sLO https://github.com/google/yamlfmt/releases/download/v0.11.0/yamlfmt_0.11.0_Linux_x86_64.tar.gz
+	sudo tar -zxf yamlfmt_0.11.0_Linux_x86_64.tar.gz -C /usr/local/bin
+	rm -f yamlfmt_0.11.0_Linux_x86_64.tar.gz
 }
 
 essentials
