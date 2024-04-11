@@ -10,6 +10,7 @@ return {
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"bashls",
+				"eslint",
 				"gopls",
 				"lua_ls",
 				"tsserver",
