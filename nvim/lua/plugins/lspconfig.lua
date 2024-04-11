@@ -13,7 +13,6 @@ return {
 
 		local servers = {
 			"bashls",
-			"eslint",
 			"gopls",
 			"lua_ls",
 			"tsserver",
