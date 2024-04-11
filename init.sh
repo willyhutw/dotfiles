@@ -217,16 +217,6 @@ function configProgs {
 	done
 }
 
-function updateBashrc {
-	# bash_completion
-	mkdir -p $HOME/.bash_completion
-	cp bash_completion/* $HOME/.bash_completion/
-
-	# bashrc
-	cp bashrc $HOME/.bashrc
-	echo "bashrc has been updated!"
-}
-
 function installFormatters {
 	# gofumpt, goimports-reviser
 	go install mvdan.cc/gofumpt@latest
@@ -250,10 +240,23 @@ function installFormatters {
 	rm -f yamlfmt_0.11.0_Linux_x86_64.tar.gz
 }
 
+function updateBashrc {
+	# bash_completion
+	mkdir -p $HOME/.bash_completion
+	cp bash_completion/* $HOME/.bash_completion/
+
+	# bash_alias
+	cp bash_alias $HOME/.bash_alias
+
+	# bashrc
+	cp bashrc $HOME/.bashrc
+	echo "bashrc has been updated!"
+}
+
 essentials
 installProgs
 configProgs
-updateBashrc
 installFormatters
+updateBashrc
 
 exit 0
