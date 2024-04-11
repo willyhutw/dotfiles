@@ -130,19 +130,5 @@ export PATH=$PATH:$HOME/go/bin
 ### venv
 source $HOME/venv/bin/activate
 
-### kubectl
-source <(kubectl completion bash)
-alias k="kubectl"
-complete -o default -F __start_kubectl k
-export kgen="--dry-run=client -o yaml"
-export kforce="--force --grace-period 0"
-
-### alacritty
-source ~/.bash_completion/alacritty
-
-### alias
-alias vi="nvim"
-alias vim="nvim"
-
 ### reload bash_completion
 source ~/.bash_completion/*
