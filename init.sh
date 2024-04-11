@@ -246,7 +246,7 @@ function updateBashrc {
 	cp bash_completion/* $HOME/.bash_completion/
 
 	# bash_alias
-	cp bash_alias $HOME/.bash_alias
+	cp bash_aliases $HOME/.bash_aliases
 
 	# bashrc
 	cp bashrc $HOME/.bashrc
