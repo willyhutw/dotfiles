@@ -246,6 +246,4 @@ configProgs
 updateBashrc
 installFormatters
 
-# TODO:: Try LSP & completion nvim plugins.
-
 exit 0
