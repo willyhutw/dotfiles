@@ -131,7 +131,7 @@ export PATH=$PATH:$HOME/go/bin
 source $HOME/venv/bin/activate
 
 ### reload bash_completion
-cmds=$(ls .bash_completion)
+cmds=$(ls $HOME/.bash_completion)
 for cmd in ${cmds[@]}; do
-	source .bash_completion/$cmd
+	source $HOME/.bash_completion/$cmd
 done
