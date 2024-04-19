@@ -24,5 +24,16 @@ return {
 				capabilities = capabilities,
 			})
 		end
+
+		-- Extra `global vim` setting
+		lspconfig["lua_ls"].setup({
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { "vim" },
+					},
+				},
+			},
+		})
 	end,
 }
