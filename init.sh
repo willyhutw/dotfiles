@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 set -u
 
@@ -14,7 +14,9 @@ function essentials {
 			sysstat \
 			xsel \
 			ripgrep \
-			fd-find
+			fd-find \
+			fontconfig \
+			unzip
 }
 
 function install_alacritty {
@@ -92,6 +94,8 @@ function install_go {
 	destDir="/usr/local"
 	curl -sLO https://go.dev/dl/$fileName
 	sudo rm -rf $destDir/go && sudo tar -C $destDir -xzf $fileName
+	export PATH=$PATH:/usr/local/go/bin
+	export PATH=$PATH:$HOME/go/bin
 	rm ./$fileName
 }
 
@@ -158,6 +162,7 @@ function install_nvm {
 	nvm="$HOME/.config/nvm/nvm.sh"
 	if [ ! -f $nvm ]; then
 		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh | bash
+		. $HOME/.config/nvm/nvm.sh
 	fi
 }
 
@@ -187,6 +192,7 @@ function config_tpm {
 	tag="3.1.0"
 	pluginDir="$HOME/.tmux/plugins"
 	if [ ! -d $pluginDir/tpm ]; then
+		mkdir -p $pluginDir
 		curl -sLO https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz
 		tar -zxf v$tag.tar.gz -C $pluginDir
 		mv $pluginDir/tpm-$tag $pluginDir/tpm
@@ -204,7 +210,7 @@ function install_virtualenv {
 }
 
 function installProgs {
-	progs=(rust alacritty argocd btop go helm k9s kubectl nvim nvm virtualenv)
+	progs=(rust argocd btop go helm k9s kubectl nvim nvm virtualenv)
 	for prog in "${progs[@]}"; do
 		echo "checking $prog ..."
 		if ! command -v $prog &>/dev/null; then
@@ -216,12 +222,23 @@ function installProgs {
 }
 
 function configProgs {
-	progs=(alacritty nerdfonts nvim tmux tpm)
+	progs=(nerdfonts nvim tmux tpm)
 	for prog in "${progs[@]}"; do
 		echo "configuring $prog ..."
 		config_$prog
 		echo "$prog has configured!"
 	done
+}
+
+function alacritty {
+	echo "checking alacritty ..."
+	if ! command -v alacritty &>/dev/null; then
+		echo "alacritty not found! Installing ..."
+		install_alacritty
+	fi
+	echo "alacritty is ready!"
+	echo "configuring alacritty ..."
+	config_alacritty
 }
 
 function installFormatters {
@@ -265,5 +282,6 @@ installProgs
 configProgs
 installFormatters
 updateBashrc
+# alacritty
 
 exit 0
