@@ -153,7 +153,7 @@ function config_nvim {
 	destDir="$HOME/.config/nvim"
 	if [ ! -d $destDir ]; then
 		mkdir -p $destDir
-		cp -rf nvim $destDir
+		cp -rf nvim/* $destDir/
 	fi
 }
 
