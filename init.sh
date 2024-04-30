@@ -80,7 +80,7 @@ function install_btop {
 	tag="v1.3.2"
 	prog="btop"
 	fileName="btop-i686-linux-musl.tbz"
-	curl -sLO https://github.com/aristocratos/btop/releases/download/$tag/$fileName
+	curl -LO https://github.com/aristocratos/btop/releases/download/$tag/$fileName
 	tar -xf $fileName
 	cd $prog
 	sudo ./install.sh
@@ -92,7 +92,7 @@ function install_btop {
 function install_go {
 	fileName="go1.22.2.linux-amd64.tar.gz"
 	destDir="/usr/local"
-	curl -sLO https://go.dev/dl/$fileName
+	curl -LO https://go.dev/dl/$fileName
 	sudo rm -rf $destDir/go && sudo tar -C $destDir -xzf $fileName
 	export PATH=$PATH:/usr/local/go/bin
 	export PATH=$PATH:$HOME/go/bin
@@ -102,7 +102,7 @@ function install_go {
 function install_helm {
 	tag="v3.14.3"
 	fileName="helm-$tag-linux-amd64.tar.gz"
-	curl -sLO https://get.helm.sh/$fileName
+	curl -LO https://get.helm.sh/$fileName
 	tar -zxf $fileName
 	sudo mv ./linux-amd64/helm /usr/local/bin/
 	rm -rf ./linux-amd64
@@ -112,7 +112,7 @@ function install_helm {
 function install_k9s {
 	tag="v0.32.4"
 	fileName="k9s_Linux_amd64.tar.gz"
-	curl -sLO https://github.com/derailed/k9s/releases/download/$tag/$fileName
+	curl -LO https://github.com/derailed/k9s/releases/download/$tag/$fileName
 	sudo tar -zxf $fileName -C /usr/local/bin
 	rm $fileName
 }
@@ -120,7 +120,7 @@ function install_k9s {
 function install_kubectl {
 	tag="v1.28.7"
 	fileName="kubectl"
-	curl -sLO https://dl.k8s.io/release/$tag/bin/linux/amd64/$fileName
+	curl -LO https://dl.k8s.io/release/$tag/bin/linux/amd64/$fileName
 	sudo install -o root -g root -m 0755 kubectl /usr/local/bin/$fileName
 	rm $fileName
 }
@@ -132,7 +132,7 @@ function config_nerdfonts {
 	for font in "${fonts[@]}"; do
 		if [ ! -f $fontDir/${font}NerdFont-Regular.ttf ]; then
 			echo "$font not found! installing ..."
-			curl -sLO https://github.com/ryanoasis/nerd-fonts/releases/download/$tag/$font.zip
+			curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/$tag/$font.zip
 			sudo unzip -qo $font.zip -d $fontDir
 			rm $font.zip
 		fi
@@ -143,7 +143,7 @@ function config_nerdfonts {
 function install_nvim {
 	tag="v0.9.5"
 	fileName="nvim-linux64"
-	curl -sLO https://github.com/neovim/neovim/releases/download/$tag/$fileName.tar.gz
+	curl -LO https://github.com/neovim/neovim/releases/download/$tag/$fileName.tar.gz
 	sudo tar -zxf $fileName.tar.gz -C /opt
 	sudo ln -s /opt/$fileName/bin/nvim /usr/local/bin/nvim
 	rm $fileName.tar.gz
@@ -151,19 +151,20 @@ function install_nvim {
 
 function config_nvim {
 	destDir="$HOME/.config/nvim"
-	rm -rf $HOME/.local/share/nvim
-	rm -rf $HOME/.local/state/nvim
-	rm -rf $destDir
-	cp -rf nvim $destDir
+	if [ ! -d $destDir ]; then
+		mkdir -p $destDir
+		cp -rf nvim $destDir
+	fi
 }
 
 function install_nvm {
 	tag="v0.39.7"
-	nvm="$HOME/.config/nvm/nvm.sh"
+	nvm=$HOME/.nvm/nvm.sh
 	if [ ! -f $nvm ]; then
 		curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$tag/install.sh | bash
-		. $HOME/.config/nvm/nvm.sh
 	fi
+	. $nvm
+	nvm install --lts
 }
 
 function install_rust {
@@ -193,7 +194,7 @@ function config_tpm {
 	pluginDir="$HOME/.tmux/plugins"
 	if [ ! -d $pluginDir/tpm ]; then
 		mkdir -p $pluginDir
-		curl -sLO https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz
+		curl -LO https://github.com/tmux-plugins/tpm/archive/refs/tags/v$tag.tar.gz
 		tar -zxf v$tag.tar.gz -C $pluginDir
 		mv $pluginDir/tpm-$tag $pluginDir/tpm
 		rm v$tag.tar.gz
@@ -250,7 +251,7 @@ function installFormatters {
 	npm install --global --force prettier
 
 	# stylua
-	curl -sLO https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux-x86_64.zip
+	curl -LO https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux-x86_64.zip
 	sudo unzip -o stylua-linux-x86_64.zip -d /usr/local/bin/
 	rm -f stylua-linux-x86_64.zip
 
@@ -259,7 +260,7 @@ function installFormatters {
 	sudo chmod +x /usr/local/bin/shfmt
 
 	# yamlfmt
-	curl -sLO https://github.com/google/yamlfmt/releases/download/v0.11.0/yamlfmt_0.11.0_Linux_x86_64.tar.gz
+	curl -LO https://github.com/google/yamlfmt/releases/download/v0.11.0/yamlfmt_0.11.0_Linux_x86_64.tar.gz
 	sudo tar -zxf yamlfmt_0.11.0_Linux_x86_64.tar.gz -C /usr/local/bin
 	rm -f yamlfmt_0.11.0_Linux_x86_64.tar.gz
 }
@@ -282,6 +283,6 @@ installProgs
 configProgs
 installFormatters
 updateBashrc
-# alacritty
+#alacritty
 
 exit 0
