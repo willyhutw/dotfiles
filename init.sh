@@ -2,10 +2,8 @@
 
 set -u
 
-export DEBIAN_FRONTEND=noninteractive
-
 function essentials {
-	sudo apt update -qq &&
+	sudo DEBIAN_FRONTEND=noninteractive apt update -qq &&
 		sudo apt install -qqy \
 			git \
 			tmux \
@@ -23,7 +21,7 @@ function essentials {
 
 function install_alacritty {
 	# https://github.com/alacritty/alacritty/blob/master/INSTALL.md
-	sudo apt install -qqy \
+	sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
 		cmake \
 		pkg-config \
 		libfreetype6-dev \
@@ -96,6 +94,7 @@ function install_go {
 	local destDir="/usr/local"
 	curl -LO https://go.dev/dl/${fileName}
 	sudo rm -rf ${destDir}/go && sudo tar -C ${destDir} -xzf ${fileName}
+	sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
 	rm ./${fileName}
 	export PATH=$PATH:/usr/local/go/bin
 }
@@ -279,11 +278,59 @@ function updateBashrc {
 	echo "bashrc has been updated!"
 }
 
+function podman {
+	sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
+		btrfs-progs \
+		go-md2man \
+		iptables \
+		libassuan-dev \
+		libbtrfs-dev \
+		libc6-dev \
+		libdevmapper-dev \
+		libglib2.0-dev \
+		libgpgme-dev \
+		libgpg-error-dev \
+		libprotobuf-dev \
+		libprotobuf-c-dev \
+		libseccomp-dev \
+		libselinux1-dev \
+		libsystemd-dev \
+		pkg-config \
+		uidmap \
+		containernetworking-plugins
+
+	# config
+	sudo mkdir -p /etc/containers
+	sudo curl -L -o /etc/containers/registries.conf https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
+	sudo curl -L -o /etc/containers/policy.json https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
+
+	# runc
+	sudo curl -sSLf -o /usr/local/sbin/runc https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+	sudo chmod +x /usr/local/sbin/runc
+
+	# conmon
+	local conmonTag="v2.1.11"
+	git clone --depth 1 --branch ${conmonTag} https://github.com/containers/conmon.git
+	cd conmon
+	make
+	sudo make podman
+	cd ..
+
+	# podman
+	local podmanTag="v4.9.4"
+	git clone --depth 1 --branch ${podmanTag} https://github.com/containers/podman.git
+	cd podman
+	make BUILDTAGS=""
+	sudo make install
+	cd ..
+}
+
 essentials
 installProgs
 configProgs
 installFormatters
 updateBashrc
+podman
 # alacritty
 
 exit 0
