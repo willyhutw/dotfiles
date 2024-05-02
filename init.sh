@@ -3,8 +3,8 @@
 set -u
 
 function essentials {
-	sudo DEBIAN_FRONTEND=noninteractive apt update -qq &&
-		sudo apt install -qqy \
+	sudo apt update -qq &&
+		sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
 			git \
 			tmux \
 			curl \
