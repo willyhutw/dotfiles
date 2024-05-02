@@ -279,50 +279,55 @@ function updateBashrc {
 }
 
 function podman {
-	sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
-		btrfs-progs \
-		go-md2man \
-		iptables \
-		libassuan-dev \
-		libbtrfs-dev \
-		libc6-dev \
-		libdevmapper-dev \
-		libglib2.0-dev \
-		libgpgme-dev \
-		libgpg-error-dev \
-		libprotobuf-dev \
-		libprotobuf-c-dev \
-		libseccomp-dev \
-		libselinux1-dev \
-		libsystemd-dev \
-		pkg-config \
-		uidmap \
-		containernetworking-plugins
+	echo "checking podman ..."
+	if ! command -v podman &>/dev/null; then
+		echo "podman not found! Installing..."
+		sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
+			btrfs-progs \
+			go-md2man \
+			iptables \
+			libassuan-dev \
+			libbtrfs-dev \
+			libc6-dev \
+			libdevmapper-dev \
+			libglib2.0-dev \
+			libgpgme-dev \
+			libgpg-error-dev \
+			libprotobuf-dev \
+			libprotobuf-c-dev \
+			libseccomp-dev \
+			libselinux1-dev \
+			libsystemd-dev \
+			pkg-config \
+			uidmap \
+			containernetworking-plugins
 
-	# config
-	sudo mkdir -p /etc/containers
-	sudo curl -L -o /etc/containers/registries.conf https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
-	sudo curl -L -o /etc/containers/policy.json https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
+		# config
+		sudo mkdir -p /etc/containers
+		sudo curl -L -o /etc/containers/registries.conf https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
+		sudo curl -L -o /etc/containers/policy.json https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
 
-	# runc
-	sudo curl -sSLf -o /usr/local/sbin/runc https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
-	sudo chmod +x /usr/local/sbin/runc
+		# runc
+		sudo curl -sSLf -o /usr/local/sbin/runc https://github.com/opencontainers/runc/releases/download/v1.1.12/runc.amd64
+		sudo chmod +x /usr/local/sbin/runc
 
-	# conmon
-	local conmonTag="v2.1.11"
-	git clone --depth 1 --branch ${conmonTag} https://github.com/containers/conmon.git
-	cd conmon
-	make
-	sudo make podman
-	cd ..
+		# conmon
+		local conmonTag="v2.1.11"
+		git clone --depth 1 --branch ${conmonTag} https://github.com/containers/conmon.git
+		cd conmon
+		make
+		sudo make podman
+		cd ..
 
-	# podman
-	local podmanTag="v4.9.4"
-	git clone --depth 1 --branch ${podmanTag} https://github.com/containers/podman.git
-	cd podman
-	make BUILDTAGS=""
-	sudo make install
-	cd ..
+		# podman
+		local podmanTag="v4.9.4"
+		git clone --depth 1 --branch ${podmanTag} https://github.com/containers/podman.git
+		cd podman
+		make BUILDTAGS=""
+		sudo make install
+		cd ..
+	fi
+	echo "podman is ready!"
 }
 
 essentials
