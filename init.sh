@@ -33,11 +33,11 @@ function install_alacritty {
 		scdoc
 
 	local tag="v0.13.2"
-	git clone --depth 1 --branch ${tag} https://github.com/alacritty/alacritty.git
-	cd alacritty
+	git clone --depth 1 --branch ${tag} https://github.com/alacritty/alacritty.git alacritty_source
+	cd alacritty_source
 
-	# cargo build --release
-	cargo build --release --no-default-features --features=x11
+	cargo build --release
+	# cargo build --release --no-default-features --features=x11
 	# cargo build --release --no-default-features --features=wayland
 
 	sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
@@ -55,7 +55,7 @@ function install_alacritty {
 	scdoc <extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz >/dev/null
 
 	cd ..
-	rm -rf alacritty
+	rm -rf alacritty_source
 }
 
 function config_alacritty {
