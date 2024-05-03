@@ -300,7 +300,8 @@ function podman {
 			libsystemd-dev \
 			pkg-config \
 			uidmap \
-			containernetworking-plugins
+			containernetworking-plugins \
+			slirp4netns
 
 		# config
 		sudo mkdir -p /etc/containers
@@ -323,7 +324,7 @@ function podman {
 		local podmanTag="v4.9.4"
 		git clone --depth 1 --branch ${podmanTag} https://github.com/containers/podman.git
 		cd podman
-		make BUILDTAGS=""
+		make BUILDTAGS="seccomp"
 		sudo make install
 		cd ..
 	fi
