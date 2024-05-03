@@ -206,7 +206,7 @@ function config_vim {
 }
 
 function install_virtualenv {
-	sudo pip -q --break-system-packages install virtualenv
+	sudo pip -q install virtualenv --break-system-packages
 	virtualenv -q ${HOME}/venv
 }
 
