@@ -301,7 +301,8 @@ function podman {
 			pkg-config \
 			uidmap \
 			containernetworking-plugins \
-			slirp4netns
+			slirp4netns \
+			fuse-overlayfs
 
 		# config
 		sudo mkdir -p /etc/containers
