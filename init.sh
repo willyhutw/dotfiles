@@ -208,6 +208,7 @@ function config_vim {
 function install_virtualenv {
 	sudo pip -q install virtualenv --break-system-packages
 	virtualenv -q ${HOME}/venv
+	source ${HOME}/venv/bin/activate
 }
 
 function installProgs {
@@ -263,6 +264,9 @@ function installFormatters {
 	curl -LO https://github.com/google/yamlfmt/releases/download/v0.11.0/yamlfmt_0.11.0_Linux_x86_64.tar.gz
 	sudo tar -zxf yamlfmt_0.11.0_Linux_x86_64.tar.gz -C /usr/local/bin
 	rm -f yamlfmt_0.11.0_Linux_x86_64.tar.gz
+
+	# python - black
+	pip install black
 }
 
 function updateBashrc {
@@ -337,7 +341,7 @@ installProgs
 configProgs
 installFormatters
 updateBashrc
-podman
+# podman
 # alacritty
 
 exit 0
