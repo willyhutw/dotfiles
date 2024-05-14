@@ -13,6 +13,7 @@ return {
 				"gopls",
 				"lua_ls",
 				"tsserver",
+				"pyright",
 			},
 			automatic_installation = true,
 		})

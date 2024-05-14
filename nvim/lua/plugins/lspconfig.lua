@@ -16,6 +16,7 @@ return {
 			"gopls",
 			"lua_ls",
 			"tsserver",
+			"pyright",
 		}
 
 		for _, lsp in ipairs(servers) do
@@ -34,6 +35,10 @@ return {
 					},
 				},
 			},
+		})
+
+		lspconfig["pyright"].setup({
+			filetypes = { "python" },
 		})
 	end,
 }
