@@ -15,6 +15,7 @@ return {
 				lua = { "stylua" },
 				go = { "gofumpt", "goimports-reviser" },
 				sh = { "shfmt" },
+				python = { "black" },
 			},
 			format_on_save = {
 				timeout_ms = 3000,
