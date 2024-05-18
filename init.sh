@@ -234,7 +234,7 @@ function configProgs {
 
 function alacritty {
 	echo "checking alacritty ..."
-	if ! command -v alacritty &>/dev/null; then
+	if command -v alacritty &>/dev/null; then
 		echo "alacritty not found! Installing ..."
 		install_alacritty
 	fi
@@ -284,7 +284,7 @@ function updateBashrc {
 
 function podman {
 	echo "checking podman ..."
-	if ! command -v podman &>/dev/null; then
+	if command -v podman &>/dev/null; then
 		echo "podman not found! Installing..."
 		sudo DEBIAN_FRONTEND=noninteractive apt install -qqy \
 			btrfs-progs \
