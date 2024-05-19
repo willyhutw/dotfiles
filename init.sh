@@ -58,15 +58,12 @@ function install_alacritty {
 	rm -rf alacritty_source
 }
 
-function config_alacritty {
-	local prog="alacritty"
-	local cfgDir=${HOME}/.config/${prog}
-	mkdir -p ${cfgDir}/themes
-	cp ${prog}/${prog}.toml ${cfgDir}
-	local themes=("tokyonight_night" "gruvbox_dark")
-	for theme in "${themes[@]}"; do
-		cp ${prog}/themes/${theme}.toml ${cfgDir}/themes
-	done
+function install_awscli {
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+	unzip awscliv2.zip
+	sudo ./aws/install
+	rm awscliv2.zip
+	rm -rf ./aws
 }
 
 function install_argocd {
@@ -87,6 +84,19 @@ function install_btop {
 	cd ..
 	rm -rf ${prog}
 	rm ${fileName}
+}
+
+function install_docker {
+	local tag=5:26.1.3-1~ubuntu.24.04~noble
+	sudo apt update
+	sudo apt install -y ca-certificates curl
+	sudo install -m 0755 -d /etc/apt/keyrings
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+	echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+	sudo apt update
+	sudo apt install -y docker-ce=${tag} docker-ce-cli=${tag} containerd.io docker-buildx-plugin docker-compose-plugin
+	sudo usermod -a -G docker $USER
 }
 
 function install_go {
@@ -179,6 +189,30 @@ function install_rust {
 	fi
 }
 
+function install_terraform {
+	local tag="1.8.3-1"
+	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+	sudo apt update && sudo apt install terraform=${tag}
+}
+
+function install_virtualenv {
+	sudo pip -q install virtualenv --break-system-packages
+	virtualenv -q ${HOME}/venv
+	source ${HOME}/venv/bin/activate
+}
+
+function config_alacritty {
+	local prog="alacritty"
+	local cfgDir=${HOME}/.config/${prog}
+	mkdir -p ${cfgDir}/themes
+	cp ${prog}/${prog}.toml ${cfgDir}
+	local themes=("tokyonight_night" "gruvbox_dark")
+	for theme in "${themes[@]}"; do
+		cp ${prog}/themes/${theme}.toml ${cfgDir}/themes
+	done
+}
+
 function config_tmux {
 	local cfgDir=${HOME}/.config/tmux
 	mkdir -p ${cfgDir}/themes
@@ -205,14 +239,8 @@ function config_vim {
 	cp vim/vimrc ${HOME}/.vimrc
 }
 
-function install_virtualenv {
-	sudo pip -q install virtualenv --break-system-packages
-	virtualenv -q ${HOME}/venv
-	source ${HOME}/venv/bin/activate
-}
-
 function installProgs {
-	local progs=(rust argocd btop go helm k9s kubectl nvim nvm virtualenv)
+	local progs=(rust argocd awscli btop docker go helm k9s kubectl nvim nvm terraform virtualenv)
 	for prog in "${progs[@]}"; do
 		echo "checking ${prog} ..."
 		if ! command -v ${prog} &>/dev/null; then
@@ -230,17 +258,6 @@ function configProgs {
 		config_${prog}
 		echo "${prog} has configured!"
 	done
-}
-
-function alacritty {
-	echo "checking alacritty ..."
-	if command -v alacritty &>/dev/null; then
-		echo "alacritty not found! Installing ..."
-		install_alacritty
-	fi
-	echo "configuring alacritty ..."
-	config_alacritty
-	echo "alacritty is ready!"
 }
 
 function installFormatters {
@@ -336,12 +353,22 @@ function podman {
 	echo "podman is ready!"
 }
 
+function alacritty {
+	echo "checking alacritty ..."
+	if ! command -v alacritty &>/dev/null; then
+		echo "alacritty not found! Installing ..."
+		install_alacritty
+	fi
+	echo "configuring alacritty ..."
+	config_alacritty
+	echo "alacritty is ready!"
+}
+
 essentials
 installProgs
 configProgs
 installFormatters
 updateBashrc
-# podman
 # alacritty
 
 exit 0
