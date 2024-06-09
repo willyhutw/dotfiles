@@ -87,7 +87,7 @@ function install_btop {
 }
 
 function install_docker {
-	local tag=5:26.1.3-1~ubuntu.24.04~noble
+	local tag="5:26.1.4-1~ubuntu.22.04~jammy"
 	sudo apt update
 	sudo apt install -y ca-certificates curl
 	sudo install -m 0755 -d /etc/apt/keyrings
@@ -197,7 +197,7 @@ function install_terraform {
 }
 
 function install_virtualenv {
-	sudo pip -q install virtualenv --break-system-packages
+	sudo pip -q install virtualenv
 	virtualenv -q ${HOME}/venv
 	source ${HOME}/venv/bin/activate
 }
