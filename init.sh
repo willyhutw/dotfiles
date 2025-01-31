@@ -9,6 +9,7 @@ HELM_VER="v3.17.0"
 K9S_VER="v0.32.7"
 NVM_VER="v0.40.1"
 KUBECTL_VER="v1.32.1"
+SYNCTHING_VER="v1.29.2"
 
 function essentials {
   sudo pacman -Syy --noconfirm base-devel tmux alacritty curl unzip xsel ripgrep fd python-pip python-virtualenv
@@ -24,6 +25,18 @@ function install_btop {
   cd ..
   rm -rf ${prog}
   rm ${fileName}
+}
+
+function install_syncthing {
+  local prog="syncthing"
+  curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
+  sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C ~/opt
+  sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
+  sudo curl -sSLf -o /opt/${prog}/logo-128.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
+  mkdir -p ~/.config/autostart
+  sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
+  sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications
+  sudo sed -i 's/^Icon=syncthing$/Icon=\/opt\/syncthing\/logo-128.png/' /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop
 }
 
 function install_go {
@@ -100,6 +113,16 @@ function install_argocd {
   sudo chmod +x ${prog}
 }
 
+function config_fonts {
+  local fontCfgDir="${HOME}/.config/fontconfig"
+  if [ ! -f ${fontCfgDir}/fonts.conf ]; then
+    echo "FontConfig not found! Installing noto fonts ..."
+    sudo pacman -Syy --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
+    fc-cache -f
+    cp ./fontconfig/fonts.conf ${fontCfgDir}/fonts.conf
+  fi
+}
+
 function config_nerdfonts {
   local tag="v3.2.0"
   local fontDir="/usr/local/share/fonts"
@@ -157,7 +180,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(btop go rust nvm virtualenv aws kubectl k9s helm argocd)
+  local progs=(btop syncthing go rust nvm virtualenv aws kubectl k9s helm argocd)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -169,7 +192,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(nerdfonts alacritty tmux tpm nvim)
+  local progs=(fonts nerdfonts alacritty tmux tpm nvim)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
