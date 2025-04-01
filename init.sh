@@ -10,6 +10,7 @@ K9S_VER="v0.32.7"
 NVM_VER="v0.40.1"
 KUBECTL_VER="v1.32.1"
 SYNCTHING_VER="v1.29.2"
+BLENDER_VER="4.4.0"
 
 function essentials {
   sudo pacman -Syy --noconfirm base-devel tmux alacritty curl unzip xsel ripgrep fd python-pip python-virtualenv
@@ -27,6 +28,17 @@ function install_btop {
   rm ${fileName}
 }
 
+function install_blender {
+  local prog="blender"
+  curl -LOs "https://mirror.freedif.org/${prog}/release/Blender4.4/blender-${BLENDER_VER}-linux-x64.tar.xz"
+  sudo tar -xf ./${prog}-${BLENDER_VER}-linux-x64.tar.xz -C ~/opt
+  sudo mv /opt/${prog}-${BLENDER_VER}-linux-x64 /opt/${prog}
+  sudo ln -s /opt/${prog}/blender /usr/local/bin/
+  sudo ln -s /opt/${prog}/blender.svg /usr/share/icons/
+  sudo ln -s /opt/${prog}/blender.desktop ~/.local/share/applications/
+  rm -f ./${prog}-${BLENDER_VER}-linux-x64.tar.xz
+}
+
 function install_syncthing {
   local prog="syncthing"
   curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
@@ -37,6 +49,7 @@ function install_syncthing {
   sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
   sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications
   sudo sed -i 's/^Icon=syncthing$/Icon=\/opt\/syncthing\/logo-128.png/' /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop
+  rm -f ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz
 }
 
 function install_go {
@@ -180,7 +193,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(btop syncthing go rust nvm virtualenv aws kubectl k9s helm argocd)
+  local progs=(btop blender syncthing go rust nvm virtualenv aws kubectl k9s helm argocd)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
