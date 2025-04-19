@@ -37,6 +37,12 @@ function install_btop {
   rm ${fileName}
 }
 
+function install_reflector {
+  sudo pacman -Syy --noconfirm reflector
+  reflector --country Taiwan --protocol https --latest 20 --age 24 --sort rate | sudo tee /etc/pacman.d/mirrorlist
+  sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
+}
+
 function install_blender {
   local prog="blender"
   curl -LOs "https://mirror.freedif.org/${prog}/release/Blender4.4/blender-${BLENDER_VER}-linux-x64.tar.xz"
@@ -204,7 +210,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(argocd aws blender btop go helm k9s kubectl nvm rust syncthing virtualenv)
+  local progs=(argocd aws blender btop go helm k9s kubectl nvm reflector rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
