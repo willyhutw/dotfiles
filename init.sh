@@ -2,18 +2,27 @@
 
 set -ue
 
-GO_VER="1.23.5"
+GO_VER="1.24.2"
 BTOP_VER="v1.4.0"
-ARGO_VER="v2.13.4"
-HELM_VER="v3.17.0"
-K9S_VER="v0.32.7"
-NVM_VER="v0.40.1"
-KUBECTL_VER="v1.32.1"
+ARGO_VER="v2.14.10"
+HELM_VER="v3.17.3"
+K9S_VER="v0.50.3"
+NVM_VER="v0.40.2"
+KUBECTL_VER="v1.32.3"
 SYNCTHING_VER="v1.29.5"
-BLENDER_VER="4.4.0"
+BLENDER_VER="4.4.1"
 
 function essentials {
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty curl unzip xsel ripgrep fd python-pip python-virtualenv xdg-utils
+  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils
+}
+
+function nvidia_driver {
+  sudo pacman -Syy --noconfirm nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
+  sudo systemctl enable --now switcheroo-control.service
+}
+
+function input_method {
+  sudo pacman -Syy --noconfirm fcitx5-im fcitx5-chewing fcitx5-mozc
 }
 
 function install_btop {
@@ -31,11 +40,11 @@ function install_btop {
 function install_blender {
   local prog="blender"
   curl -LOs "https://mirror.freedif.org/${prog}/release/Blender4.4/blender-${BLENDER_VER}-linux-x64.tar.xz"
-  sudo tar -xf ./${prog}-${BLENDER_VER}-linux-x64.tar.xz -C ~/opt
+  sudo tar -xf ./${prog}-${BLENDER_VER}-linux-x64.tar.xz -C /opt
   sudo mv /opt/${prog}-${BLENDER_VER}-linux-x64 /opt/${prog}
   sudo ln -s /opt/${prog}/blender /usr/local/bin/
   sudo ln -s /opt/${prog}/blender.svg /usr/share/icons/
-  sudo ln -s /opt/${prog}/blender.desktop ~/.local/share/applications/
+  ln -s /opt/${prog}/blender.desktop ~/.local/share/applications/
   rm -f ./${prog}-${BLENDER_VER}-linux-x64.tar.xz
 }
 
@@ -195,7 +204,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(btop syncthing go nvm virtualenv aws kubectl k9s helm argocd)
+  local progs=(argocd aws blender btop go helm k9s kubectl nvm rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -236,13 +245,11 @@ function installFormatters {
   curl -LO https://github.com/google/yamlfmt/releases/download/v0.15.0/yamlfmt_0.15.0_Linux_x86_64.tar.gz
   sudo tar -zxf yamlfmt_0.15.0_Linux_x86_64.tar.gz -C /usr/local/bin
   rm -f yamlfmt_0.15.0_Linux_x86_64.tar.gz
-
-  # python - black
-  # pip install --upgrade pip
-  # pip install black
 }
 
 essentials
+nvidia_driver
+input_method
 installProgs
 configProgs
 installFormatters
