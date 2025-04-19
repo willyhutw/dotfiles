@@ -42,8 +42,9 @@ function install_blender {
 function install_syncthing {
   local prog="syncthing"
   curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
-  sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C ~/opt
+  sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C /opt
   sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
+  sudo ln -s /opt/${prog}/syncthing /usr/local/bin/syncthing
   sudo curl -sSLf -o /opt/${prog}/logo-128.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
   mkdir -p ~/.config/autostart
   sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
@@ -128,6 +129,7 @@ function install_argocd {
 
 function config_fonts {
   local fontCfgDir="${HOME}/.config/fontconfig"
+  mkdir -p ${fontCfgDir}
   if [ ! -f ${fontCfgDir}/fonts.conf ]; then
     echo "FontConfig not found! Installing noto fonts ..."
     sudo pacman -Syy --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
@@ -193,7 +195,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(btop blender syncthing go rust nvm virtualenv aws kubectl k9s helm argocd)
+  local progs=(btop syncthing go nvm virtualenv aws kubectl k9s helm argocd)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -236,8 +238,8 @@ function installFormatters {
   rm -f yamlfmt_0.15.0_Linux_x86_64.tar.gz
 
   # python - black
-  pip install --upgrade pip
-  pip install black
+  # pip install --upgrade pip
+  # pip install black
 }
 
 essentials
