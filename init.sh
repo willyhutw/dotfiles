@@ -9,11 +9,11 @@ HELM_VER="v3.17.0"
 K9S_VER="v0.32.7"
 NVM_VER="v0.40.1"
 KUBECTL_VER="v1.32.1"
-SYNCTHING_VER="v1.29.2"
+SYNCTHING_VER="v1.29.5"
 BLENDER_VER="4.4.0"
 
 function essentials {
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty curl unzip xsel ripgrep fd python-pip python-virtualenv
+  sudo pacman -Syy --noconfirm base-devel tmux alacritty curl unzip xsel ripgrep fd python-pip python-virtualenv xdg-utils
 }
 
 function install_btop {
@@ -44,11 +44,11 @@ function install_syncthing {
   curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
   sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C /opt
   sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
-  sudo ln -s /opt/${prog}/syncthing /usr/local/bin/syncthing
+  sudo ln -s /opt/${prog}/syncthing /usr/bin/syncthing
   sudo curl -sSLf -o /opt/${prog}/logo-128.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
   mkdir -p ~/.config/autostart
-  sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
-  sudo ln -s /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications
+  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
+  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications
   sudo sed -i 's/^Icon=syncthing$/Icon=\/opt\/syncthing\/logo-128.png/' /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop
   rm -f ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz
 }
