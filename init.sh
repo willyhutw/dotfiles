@@ -2,7 +2,7 @@
 
 set -ue
 
-GO_VER="1.24.2"
+GO_VER="1.24.3"
 BTOP_VER="v1.4.0"
 ARGO_VER="v2.14.10"
 HELM_VER="v3.17.3"
@@ -73,7 +73,7 @@ function install_go {
   local destDir="/usr/local"
   curl -LO https://go.dev/dl/${fileName}
   sudo rm -rf ${destDir}/go && sudo tar -C ${destDir} -xzf ${fileName}
-  sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
+  sudo ln -sf /usr/local/go/bin/go /usr/local/bin/go
   rm ./${fileName}
   export PATH=$PATH:/usr/local/go/bin
 }
