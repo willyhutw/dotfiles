@@ -88,7 +88,7 @@ function install_nvm {
 }
 
 function install_virtualenv {
-  sudo pip -q install virtualenv
+  sudo pip -q install virtualenv --break-system-packages
   virtualenv -q ${HOME}/venv
   source ${HOME}/venv/bin/activate
 }
