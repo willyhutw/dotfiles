@@ -10,7 +10,6 @@ K9S_VER="v0.50.3"
 NVM_VER="v0.40.2"
 KUBECTL_VER="v1.32.3"
 SYNCTHING_VER="v1.29.5"
-BLENDER_VER="4.4.1"
 
 function essentials {
   sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils
@@ -41,17 +40,6 @@ function install_reflector {
   sudo pacman -Syy --noconfirm reflector
   reflector --country Taiwan --protocol https --latest 20 --age 24 --sort rate | sudo tee /etc/pacman.d/mirrorlist
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
-}
-
-function install_blender {
-  local prog="blender"
-  curl -LOs "https://mirror.freedif.org/${prog}/release/Blender4.4/blender-${BLENDER_VER}-linux-x64.tar.xz"
-  sudo tar -xf ./${prog}-${BLENDER_VER}-linux-x64.tar.xz -C /opt
-  sudo mv /opt/${prog}-${BLENDER_VER}-linux-x64 /opt/${prog}
-  sudo ln -s /opt/${prog}/blender /usr/local/bin/
-  sudo ln -s /opt/${prog}/blender.svg /usr/share/icons/
-  ln -s /opt/${prog}/blender.desktop ~/.local/share/applications/
-  rm -f ./${prog}-${BLENDER_VER}-linux-x64.tar.xz
 }
 
 function install_syncthing {
