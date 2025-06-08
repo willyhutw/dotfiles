@@ -48,11 +48,11 @@ function install_syncthing {
   sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C /opt
   sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
   sudo ln -s /opt/${prog}/syncthing /usr/bin/syncthing
-  sudo curl -sSLf -o /opt/${prog}/logo-128.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
-  mkdir -p ~/.config/autostart
-  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-start.desktop ~/.config/autostart
-  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications
-  sudo sed -i 's/^Icon=syncthing$/Icon=\/opt\/syncthing\/logo-128.png/' /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop
+  sudo curl -sSLf -o ~/.local/share/icons/syncthing.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
+  mkdir -p ~/.config/systemd/user
+  ln -sf /opt/syncthing/etc/linux-systemd/user/syncthing.service ~/.config/systemd/user/
+  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications/
+  systemctl --user enable --now syncthing.service
   rm -f ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz
 }
 
