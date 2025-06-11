@@ -2,22 +2,17 @@
 
 set -ue
 
-GO_VER="1.24.3"
-BTOP_VER="v1.4.0"
-ARGO_VER="v2.14.10"
-HELM_VER="v3.17.3"
-K9S_VER="v0.50.3"
-NVM_VER="v0.40.2"
-KUBECTL_VER="v1.32.3"
-SYNCTHING_VER="v1.29.5"
+GO_VER="1.24.4"
+BTOP_VER="v1.4.3"
+ARGO_VER="v2.14.14"
+HELM_VER="v3.18.2"
+K9S_VER="v0.50.6"
+NVM_VER="v0.40.3"
+KUBECTL_VER="v1.32.5"
+SYNCTHING_VER="v1.29.7"
 
 function essentials {
   sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils
-}
-
-function nvidia_driver {
-  sudo pacman -Syy --noconfirm nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
-  sudo systemctl enable --now switcheroo-control.service
 }
 
 function input_method {
@@ -47,7 +42,8 @@ function install_syncthing {
   curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
   sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C /opt
   sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
-  sudo ln -s /opt/${prog}/syncthing /usr/bin/syncthing
+  sudo ln -sf /opt/${prog}/syncthing /usr/bin/syncthing
+  mkdir -p ~/.local/share/icons
   sudo curl -sSLf -o ~/.local/share/icons/syncthing.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
   mkdir -p ~/.config/systemd/user
   ln -sf /opt/syncthing/etc/linux-systemd/user/syncthing.service ~/.config/systemd/user/
@@ -95,7 +91,7 @@ function install_virtualenv {
 
 function install_aws {
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  unzip awscliv2.zip
+  unzip -qq awscliv2.zip
   sudo ./aws/install
   rm awscliv2.zip
   rm -rf ./aws
@@ -198,7 +194,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(argocd aws blender btop go helm k9s kubectl nvm reflector rust syncthing virtualenv)
+  local progs=(argocd aws btop go helm k9s kubectl nvm reflector rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -242,10 +238,7 @@ function installFormatters {
 }
 
 essentials
-nvidia_driver
 input_method
 installProgs
 configProgs
 installFormatters
-
-exit 0
