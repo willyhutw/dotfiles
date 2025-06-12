@@ -125,6 +125,20 @@ function install_argocd {
   sudo chmod +x /usr/local/bin/argocd
 }
 
+function install_docker {
+  sudo pacman -Syy --noconfirm docker docker-compose docker-buildx
+  sudo systemctl enable --now docker.service
+  sudo usermod -aG docker $USER
+  newgrp docker && su - $USER
+
+  # setup buildx
+  docker run --privileged --rm tonistiigi/binfmt --install arm64
+  sudo modprobe binfmt_misc
+  sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+  docker buildx create --name multiarch-builder --driver docker-container --use
+  docker buildx inspect --bootstrap
+}
+
 function config_fonts {
   local fontCfgDir="${HOME}/.config/fontconfig"
   mkdir -p ${fontCfgDir}
@@ -193,7 +207,7 @@ function config_nvim {
 }
 
 function installProgs {
-  local progs=(argocd aws btop go helm k9s kubectl nvm reflector rust syncthing virtualenv)
+  local progs=(argocd aws btop docker go helm k9s kubectl nvm reflector rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
