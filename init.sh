@@ -12,7 +12,11 @@ KUBECTL_VER="v1.32.5"
 SYNCTHING_VER="v1.29.7"
 
 function essentials {
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc
+  sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
+
+  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc reflector
+
+  reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 }
 
 function install_btop {
@@ -25,12 +29,6 @@ function install_btop {
   cd ..
   rm -rf ${prog}
   rm ${fileName}
-}
-
-function install_reflector {
-  sudo pacman -Syy --noconfirm reflector
-  reflector --country Taiwan --protocol https --latest 20 --age 24 --sort rate | sudo tee /etc/pacman.d/mirrorlist
-  sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
 }
 
 function install_syncthing {
@@ -207,7 +205,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd aws btop docker go helm k9s kubectl nvm reflector rust syncthing virtualenv)
+  local progs=(argocd aws btop docker go helm k9s kubectl nvm rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
