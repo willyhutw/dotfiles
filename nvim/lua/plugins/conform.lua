@@ -2,7 +2,6 @@ return {
 	-- https://github.com/stevearc/conform.nvim
 	"stevearc/conform.nvim",
 	enabled = true,
-	event = { "BufNewFile", "BufReadPre" },
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
@@ -13,18 +12,23 @@ return {
 				json = { "prettier" },
 				yaml = { "yamlfmt" },
 				lua = { "stylua" },
-				go = { "gofumpt", "goimports-reviser" },
+				rust = { "rustfmt" },
 				sh = { "shfmt" },
 				python = { "black" },
-				["*"] = { "typos" },
-				["_"] = { "trim_whitespace" },
+			},
+			default_format_opts = {
+				lsp_format = "fallback",
 			},
 			format_on_save = {
 				timeout_ms = 3000,
-				async = false,
-				quiet = false,
-				lsp_fallback = true,
+				lsp_format = "fallback",
 			},
+			format_after_save = {
+				lsp_format = "fallback",
+			},
+			log_level = vim.log.levels.ERROR,
+			notify_on_error = true,
+			notify_no_formatters = true,
 		})
 	end,
 }

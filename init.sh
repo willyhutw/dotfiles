@@ -228,10 +228,6 @@ function configProgs {
 }
 
 function installFormatters {
-  # gofumpt, goimports-reviser
-  go install mvdan.cc/gofumpt@latest
-  go install github.com/incu6us/goimports-reviser/v3@latest
-
   # prettier
   npm install --global --force prettier
 
