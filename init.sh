@@ -243,8 +243,8 @@ function installFormatters {
   sudo tar -zxf yamlfmt_0.17.0_Linux_x86_64.tar.gz -C /usr/local/bin
   rm -f yamlfmt_0.17.0_Linux_x86_64.tar.gz
 
-  # black and typos
-  sudo pacman -Syy --noconfirm python-black typos
+  # black for python
+  sudo pacman -Syy --noconfirm python-black
 }
 
 function configShell {

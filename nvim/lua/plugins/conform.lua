@@ -5,16 +5,16 @@ return {
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
-				typescript = { "prettier" },
-				typescriptreact = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
-				yaml = { "yamlfmt" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
 				lua = { "stylua" },
+				python = { "black" },
 				rust = { "rustfmt" },
 				sh = { "shfmt" },
-				python = { "black" },
+				yaml = { "yamlfmt" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",
