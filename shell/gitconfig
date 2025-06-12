@@ -1,0 +1,5 @@
+[user]
+	name = Willy Hu
+	email = willyhu.tw@gmail.com
+[core]
+	editor = nvim
