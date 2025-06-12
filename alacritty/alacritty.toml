@@ -7,7 +7,7 @@ general.import = [
 TERM = "xterm-256color"
 
 [font]
-size = 17
+size = 21
 
 [font.bold]
 family = "Hack Nerd Font"
