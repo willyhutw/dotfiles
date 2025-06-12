@@ -121,9 +121,8 @@ function install_helm {
 }
 
 function install_argocd {
-  local prog="/usr/local/bin/argocd"
-  sudo curl -sSLf -o ${prog} https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/argocd-linux-amd64
-  sudo chmod +x ${prog}
+  sudo curl -sSLf -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/argocd-linux-amd64
+  sudo chmod +x /usr/local/bin/argocd
 }
 
 function config_fonts {
