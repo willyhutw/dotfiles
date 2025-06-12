@@ -12,11 +12,7 @@ KUBECTL_VER="v1.32.5"
 SYNCTHING_VER="v1.29.7"
 
 function essentials {
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils
-}
-
-function input_method {
-  sudo pacman -Syy --noconfirm fcitx5-im fcitx5-chewing fcitx5-mozc
+  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc
 }
 
 function install_btop {
@@ -206,6 +202,10 @@ function config_nvim {
   fi
 }
 
+function config_fcitx5 {
+  cp -rf ./fcitx5 ~/.config/
+}
+
 function installProgs {
   local progs=(argocd aws btop docker go helm k9s kubectl nvm reflector rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
@@ -219,7 +219,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(fonts nerdfonts alacritty tmux tpm nvim)
+  local progs=(fonts nerdfonts alacritty tmux tpm nvim fcitx5)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
@@ -253,8 +253,15 @@ function installFormatters {
   sudo pacman -Syy --noconfirm python-black typos
 }
 
+function configShell {
+  sudo cp -f ./shell/bash/completions/* /usr/share/bash-completion/completions/
+  cp -f ./shell/gitconfig ~/.gitconfig
+  cp -f ./shell/bash/bashrc ~/.bashrc
+  source ~/.bashrc
+}
+
 essentials
-input_method
 installProgs
 configProgs
 installFormatters
+configShell

@@ -1,0 +1,39 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# prompt string
+PS1='[\u@\h \W]\$ '
+
+# aliases
+alias ls='ls --color=auto'
+alias ll='ls -lha --color=auto'
+alias grep='grep --color=auto'
+alias vi='nvim'
+alias vim='nvim'
+alias k='kubectl'
+
+# general bash completion
+[[ $PS1 && -d /usr/share/bash-completion/completions ]] &&
+  . /usr/share/bash-completion/completions/*
+
+# aws completion
+complete -C '/usr/local/bin/aws_completer' aws
+
+# rust
+. "$HOME/.cargo/env"
+
+# go
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# common env
+export EDITOR=nvim
