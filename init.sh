@@ -223,18 +223,21 @@ function installFormatters {
   npm install --global --force prettier
 
   # stylua
-  curl -LO https://github.com/JohnnyMorganz/StyLua/releases/download/v2.0.2/stylua-linux-x86_64.zip
+  curl -LO https://github.com/JohnnyMorganz/StyLua/releases/download/v2.1.0/stylua-linux-x86_64.zip
   sudo unzip -o stylua-linux-x86_64.zip -d /usr/local/bin/
   rm -f stylua-linux-x86_64.zip
 
   # shfmt
-  sudo curl -sSLf -o /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.10.0/shfmt_v3.10.0_linux_amd64
+  sudo curl -sSLf -o /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.11.0/shfmt_v3.11.0_linux_amd64
   sudo chmod +x /usr/local/bin/shfmt
 
   # yamlfmt
-  curl -LO https://github.com/google/yamlfmt/releases/download/v0.15.0/yamlfmt_0.15.0_Linux_x86_64.tar.gz
-  sudo tar -zxf yamlfmt_0.15.0_Linux_x86_64.tar.gz -C /usr/local/bin
-  rm -f yamlfmt_0.15.0_Linux_x86_64.tar.gz
+  curl -LO https://github.com/google/yamlfmt/releases/download/v0.17.0/yamlfmt_0.17.0_Linux_x86_64.tar.gz
+  sudo tar -zxf yamlfmt_0.17.0_Linux_x86_64.tar.gz -C /usr/local/bin
+  rm -f yamlfmt_0.17.0_Linux_x86_64.tar.gz
+
+  # black and typos
+  sudo pacman -Syy --noconfirm python-black typos
 }
 
 essentials
