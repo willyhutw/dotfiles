@@ -124,8 +124,9 @@ function install_docker {
   sudo systemctl enable --now docker.service
   sudo usermod -aG docker $USER
   newgrp docker && su - $USER
+}
 
-  # setup buildx
+function config_buildx {
   docker run --privileged --rm tonistiigi/binfmt --install arm64
   sudo modprobe binfmt_misc
   sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
@@ -217,7 +218,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(fonts nerdfonts alacritty tmux tpm nvim fcitx5)
+  local progs=(alacritty buildx fcitx5 fonts nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
