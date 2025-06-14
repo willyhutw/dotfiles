@@ -228,7 +228,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd asusctl aws btop docker go helm k9s kubectl nvm rust supergfxctl syncthing virtualenv)
+  local progs=(argocd aws btop docker go helm k9s kubectl nvm rust syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -277,8 +277,22 @@ function configShell {
   source ~/.bashrc
 }
 
+function installAsusctl {
+  local progs=(asusctl supergfxctl)
+  for prog in "${progs[@]}"; do
+    if ! command -v ${prog} &>/dev/null; then
+      echo "${prog} not found! Installing ..."
+      install_${prog}
+    fi
+    echo "${prog} is ready!"
+  done
+}
+
 essentials
 installProgs
 configProgs
 installFormatters
 configShell
+
+# optional
+installAsusctl
