@@ -162,13 +162,6 @@ function install_yay {
   rm -rf ${prog}
 }
 
-function config_buildx {
-  docker run --privileged --rm tonistiigi/binfmt --install arm,arm64
-  sudo modprobe binfmt_misc
-  sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
-  docker buildx inspect --bootstrap
-}
-
 function config_fonts {
   local fontCfgDir="${HOME}/.config/fontconfig"
   mkdir -p ${fontCfgDir}
@@ -254,7 +247,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty buildx fcitx5 fonts nerdfonts nvim tmux tpm)
+  local progs=(alacritty fcitx5 fonts nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
