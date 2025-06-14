@@ -174,14 +174,15 @@ function config_fonts {
 }
 
 function config_nerdfonts {
-  local tag="v3.2.0"
+  local tag="v3.4.0"
   local fontDir="/usr/local/share/fonts"
-  local fonts=("Hack")
+  local fonts=(FiraCode Hack JetBrainsMono)
   for font in "${fonts[@]}"; do
+    echo "checking ${font}NerdFont ..."
     if [ ! -f ${fontDir}/${font}NerdFont-Regular.ttf ]; then
       echo "${font}NerdFont not found! Installing ..."
       curl -LO https://github.com/ryanoasis/nerd-fonts/releases/download/${tag}/${font}.zip
-      sudo unzip -o ${font}.zip -d ${fontDir}
+      sudo unzip -qq -o ${font}.zip -d ${fontDir}
       rm ${font}.zip
     fi
   done
