@@ -10,11 +10,13 @@ K9S_VER="v0.50.6"
 NVM_VER="v0.40.3"
 KUBECTL_VER="v1.32.5"
 SYNCTHING_VER="v1.29.7"
+ASUSCTL_VER="6.1.12"
+SUPERGFXCTL_VER="5.2.7"
 
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
 
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc reflector
+  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc reflector clang
 
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 }
@@ -126,6 +128,26 @@ function install_docker {
   newgrp docker && su - $USER
 }
 
+function install_asusctl {
+  local prog="asusctl"
+  git clone --depth 1 --branch ${ASUSCTL_VER} https://gitlab.com/asus-linux/${prog}.git
+  cd ${prog}
+  make && sudo make install
+  sudo systemctl enable --now asusd.service
+  cd ..
+  rm -rf ${prog}
+}
+
+function install_supergfxctl {
+  local prog="supergfxctl"
+  git clone --depth 1 --branch ${SUPERGFXCTL_VER} https://gitlab.com/asus-linux/${prog}.git
+  cd ${prog}
+  make && sudo make install
+  sudo systemctl enable --now supergfxd.service
+  cd ..
+  rm -rf ${prog}
+}
+
 function config_buildx {
   docker run --privileged --rm tonistiigi/binfmt --install arm64
   sudo modprobe binfmt_misc
@@ -206,7 +228,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd aws btop docker go helm k9s kubectl nvm rust syncthing virtualenv)
+  local progs=(argocd asusctl aws btop docker go helm k9s kubectl nvm rust supergfxctl syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
