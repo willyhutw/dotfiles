@@ -70,17 +70,20 @@ function install_btop {
 
 function install_syncthing {
   local prog="syncthing"
-  curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
-  sudo tar -zxf ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz -C /opt
-  sudo mv /opt/${prog}-linux-amd64-${SYNCTHING_VER} /opt/${prog}
+  local fileName="${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz"
+  curl -LOs "https://github.com/${prog}/${prog}/releases/download/${SYNCTHING_VER}/${fileName}"
+  sudo rm -rf /opt/${prog}
+  sudo tar -zxf ./${fileName} -C /opt
+  sudo mv /opt/${fileName%.tar.gz} /opt/${prog}
+  sudo chown -R $USER:$USER /opt/${prog}
   sudo ln -sf /opt/${prog}/syncthing /usr/bin/syncthing
-  mkdir -p ~/.local/share/icons
-  sudo curl -sSLf -o ~/.local/share/icons/syncthing.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
   mkdir -p ~/.config/systemd/user
   ln -sf /opt/syncthing/etc/linux-systemd/user/syncthing.service ~/.config/systemd/user/
-  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications/
   systemctl --user enable --now syncthing.service
-  rm -f ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz
+  mkdir -p ~/.local/share/{applications,icons}
+  ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications/
+  curl -sSLf -o ~/.local/share/icons/syncthing.png "https://raw.githubusercontent.com/${prog}/${prog}/refs/heads/main/assets/logo-128.png"
+  rm -f ./${fileName}
 }
 
 function install_nvm {
