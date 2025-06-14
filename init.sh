@@ -130,15 +130,9 @@ function install_helm {
 }
 
 function install_argocd {
-  sudo curl -sSLf -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/argocd-linux-amd64
-  sudo chmod +x /usr/local/bin/argocd
-}
-
-function install_docker {
-  sudo pacman -Syy --noconfirm docker docker-compose docker-buildx
-  sudo systemctl enable --now docker.service
-  sudo usermod -aG docker $USER
-  newgrp docker && su - $USER
+  local fileName="argocd-linux-amd64"
+  sudo curl -LO https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/${fileName}
+  sudo install -o root -g root -m 0755 ${fileName} /usr/local/bin/argocd
 }
 
 function install_asusctl {
