@@ -150,6 +150,15 @@ function install_supergfxctl {
   rm -rf ${prog}
 }
 
+function install_yay {
+  local prog="yay-bin"
+  git clone https://aur.archlinux.org/${prog}.git
+  cd ${prog}
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf ${prog}
+}
+
 function config_buildx {
   docker run --privileged --rm tonistiigi/binfmt --install arm,arm64
   sudo modprobe binfmt_misc
@@ -230,7 +239,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd aws btop helm k9s kubectl nvm syncthing)
+  local progs=(argocd aws btop helm k9s kubectl nvm syncthing yay)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
