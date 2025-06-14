@@ -96,7 +96,7 @@ function install_aws {
 function install_kubectl {
   local fileName="kubectl"
   curl -LO https://dl.k8s.io/release/${KUBECTL_VER}/bin/linux/amd64/${fileName}
-  sudo install -o root -g root -m 0755 kubectl /usr/local/bin/${fileName}
+  sudo install -o root -g root -m 0755 ${fileName} /usr/local/bin/${fileName}
   rm ${fileName}
 }
 
@@ -104,6 +104,7 @@ function install_k9s {
   local fileName="k9s_Linux_amd64.tar.gz"
   curl -LO https://github.com/derailed/k9s/releases/download/${K9S_VER}/${fileName}
   sudo tar -zxf ${fileName} -C /usr/local/bin
+  sudo chmod +x /usr/local/bin/k9s
   rm ${fileName}
 }
 
@@ -111,7 +112,7 @@ function install_helm {
   local fileName="helm-${HELM_VER}-linux-amd64.tar.gz"
   curl -LO https://get.helm.sh/${fileName}
   tar -zxf ${fileName}
-  sudo mv ./linux-amd64/helm /usr/local/bin/
+  sudo install -o root -g root -m 0755 ./linux-amd64/helm /usr/local/bin/helm
   rm -rf ./linux-amd64
   rm ${fileName}
 }
