@@ -11,7 +11,6 @@ return {
 				typescript = { "prettier" },
 				typescriptreact = { "prettier" },
 				lua = { "stylua" },
-				python = { "black" },
 				rust = { "rustfmt" },
 				sh = { "shfmt" },
 				yaml = { "yamlfmt" },

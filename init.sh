@@ -21,6 +21,7 @@ function essentials {
     base-devel \
     clang \
     python-pip \
+    python-virtualenv \
     go \
     rust \
     alacritty \
@@ -89,12 +90,6 @@ function install_nvm {
   fi
   . ${nvm}
   nvm install --lts
-}
-
-function install_virtualenv {
-  sudo pip -q install virtualenv --break-system-packages
-  virtualenv -q ${HOME}/venv
-  source ${HOME}/venv/bin/activate
 }
 
 function install_aws {
@@ -235,7 +230,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd aws btop helm k9s kubectl nvm syncthing virtualenv)
+  local progs=(argocd aws btop helm k9s kubectl nvm syncthing)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
@@ -272,9 +267,6 @@ function installFormatters {
   curl -LO https://github.com/google/yamlfmt/releases/download/v0.17.0/yamlfmt_0.17.0_Linux_x86_64.tar.gz
   sudo tar -zxf yamlfmt_0.17.0_Linux_x86_64.tar.gz -C /usr/local/bin
   rm -f yamlfmt_0.17.0_Linux_x86_64.tar.gz
-
-  # black for python
-  sudo pacman -Syy --noconfirm python-black
 }
 
 function configShell {
