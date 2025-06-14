@@ -2,6 +2,7 @@ return {
 	-- https://github.com/williamboman/mason-lspconfig.nvim
 	"williamboman/mason-lspconfig.nvim",
 	enabled = true,
+	version = "v2.0.0",
 	dependencies = {
 		"williamboman/mason.nvim",
 		"neovim/nvim-lspconfig",

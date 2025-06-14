@@ -1,6 +1,8 @@
 return {
 	-- https://github.com/ray-x/go.nvim
 	"ray-x/go.nvim",
+	enabled = true,
+	version = "v0.10.4",
 	dependencies = {
 		"ray-x/guihua.lua",
 		"neovim/nvim-lspconfig",

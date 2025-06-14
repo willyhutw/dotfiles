@@ -1,6 +1,8 @@
 return {
 	-- https://github.com/lewis6991/gitsigns.nvim
 	"lewis6991/gitsigns.nvim",
+	enabled = true,
+	version = "v1.0.2",
 	opts = {
 		signs = {
 			add = { text = "┃" },

@@ -2,6 +2,7 @@ return {
 	-- https://github.com/nvim-treesitter/nvim-treesitter
 	"nvim-treesitter/nvim-treesitter",
 	enabled = true,
+	version = "v0.10.0",
 	event = { "BufNewFile", "BufReadPre" },
 	build = ":TSUpdate",
 	config = function()
