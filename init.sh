@@ -156,10 +156,9 @@ function install_supergfxctl {
 }
 
 function config_buildx {
-  docker run --privileged --rm tonistiigi/binfmt --install arm64
+  docker run --privileged --rm tonistiigi/binfmt --install arm,arm64
   sudo modprobe binfmt_misc
   sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
-  docker buildx create --name multiarch-builder --driver docker-container --use
   docker buildx inspect --bootstrap
 }
 
