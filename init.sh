@@ -2,7 +2,6 @@
 
 set -ue
 
-GO_VER="1.24.4"
 BTOP_VER="v1.4.3"
 ARGO_VER="v2.14.14"
 HELM_VER="v3.18.2"
@@ -15,10 +14,45 @@ SUPERGFXCTL_VER="5.2.7"
 
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
-
-  sudo pacman -Syy --noconfirm base-devel tmux alacritty firefox gnome-shell-extensions gnome-browser-connector gnome-text-editor gnome-system-monitor gnome-tweaks nautilus obsidian curl unzip xsel ripgrep fd python-pip xdg-utils dnsutils net-tools iproute2 inetutils fcitx5-im fcitx5-chewing fcitx5-mozc reflector clang
-
+  sudo pacman -Syy --noconfirm reflector
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
+
+  sudo pacman -Syy --noconfirm \
+    base-devel \
+    clang \
+    python-pip \
+    go \
+    rust \
+    alacritty \
+    tmux \
+    curl \
+    unzip \
+    dnsutils \
+    net-tools \
+    iproute2 \
+    inetutils \
+    fd \
+    ripgrep \
+    xsel \
+    xdg-utils \
+    firefox \
+    obsidian \
+    gnome-shell-extensions \
+    gnome-browser-connector \
+    gnome-text-editor \
+    gnome-system-monitor \
+    gnome-tweaks \
+    nautilus \
+    fcitx5-im \
+    fcitx5-chewing \
+    fcitx5-mozc \
+    docker \
+    docker-compose \
+    docker-buildx
+
+  sudo systemctl enable --now docker.service
+  sudo usermod -aG docker $USER
+  newgrp docker
 }
 
 function install_btop {
@@ -46,28 +80,6 @@ function install_syncthing {
   ln -sf /opt/syncthing/etc/linux-desktop/syncthing-ui.desktop ~/.local/share/applications/
   systemctl --user enable --now syncthing.service
   rm -f ./${prog}-linux-amd64-${SYNCTHING_VER}.tar.gz
-}
-
-function install_go {
-  local fileName="go${GO_VER}.linux-amd64.tar.gz"
-  local destDir="/usr/local"
-  curl -LO https://go.dev/dl/${fileName}
-  sudo rm -rf ${destDir}/go && sudo tar -C ${destDir} -xzf ${fileName}
-  sudo ln -sf /usr/local/go/bin/go /usr/local/bin/go
-  rm ./${fileName}
-  export PATH=$PATH:/usr/local/go/bin
-}
-
-function install_rust {
-  local rust="${HOME}/.cargo/env"
-  if [ -f ${rust} ]; then
-    . ${rust}
-  else
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    . ${rust}
-    rustup override set stable
-    rustup update stable
-  fi
 }
 
 function install_nvm {
@@ -229,7 +241,7 @@ function config_fcitx5 {
 }
 
 function installProgs {
-  local progs=(argocd aws btop docker go helm k9s kubectl nvm rust syncthing virtualenv)
+  local progs=(argocd aws btop helm k9s kubectl nvm syncthing virtualenv)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
