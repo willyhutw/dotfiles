@@ -2,7 +2,7 @@ return {
 	-- https://github.com/williamboman/mason.nvim
 	"williamboman/mason.nvim",
 	enabled = true,
-	version = "v2.0.0",
+	branch = "main",
 	config = function()
 		require("mason").setup({
 			ui = {

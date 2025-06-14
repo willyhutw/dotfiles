@@ -2,7 +2,7 @@ return {
 	-- https://github.com/stevearc/conform.nvim
 	"stevearc/conform.nvim",
 	enabled = true,
-	version = "v9.0.0",
+	branch = "master",
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
