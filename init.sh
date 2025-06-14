@@ -19,12 +19,10 @@ function essentials {
 
   sudo pacman -Syy --noconfirm \
     base-devel \
-    clang \
     python-pip \
     python-virtualenv \
     go \
     rust \
-    alacritty \
     tmux \
     curl \
     unzip \
@@ -35,25 +33,9 @@ function essentials {
     fd \
     ripgrep \
     xsel \
-    xdg-utils \
-    firefox \
-    obsidian \
-    gnome-shell-extensions \
-    gnome-browser-connector \
-    gnome-text-editor \
-    gnome-system-monitor \
-    gnome-tweaks \
-    nautilus \
-    fcitx5-im \
-    fcitx5-chewing \
-    fcitx5-mozc \
-    docker \
-    docker-compose \
-    docker-buildx
-
-  sudo systemctl enable --now docker.service
-  sudo usermod -aG docker $USER
-  newgrp docker
+    stylua \
+    shfmt \
+    yamlfmt
 }
 
 function install_btop {
@@ -256,22 +238,7 @@ function configProgs {
 }
 
 function installFormatters {
-  # prettier
   npm install --global --force prettier
-
-  # stylua
-  curl -LO https://github.com/JohnnyMorganz/StyLua/releases/download/v2.1.0/stylua-linux-x86_64.zip
-  sudo unzip -o stylua-linux-x86_64.zip -d /usr/local/bin/
-  rm -f stylua-linux-x86_64.zip
-
-  # shfmt
-  sudo curl -sSLf -o /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/download/v3.11.0/shfmt_v3.11.0_linux_amd64
-  sudo chmod +x /usr/local/bin/shfmt
-
-  # yamlfmt
-  curl -LO https://github.com/google/yamlfmt/releases/download/v0.17.0/yamlfmt_0.17.0_Linux_x86_64.tar.gz
-  sudo tar -zxf yamlfmt_0.17.0_Linux_x86_64.tar.gz -C /usr/local/bin
-  rm -f yamlfmt_0.17.0_Linux_x86_64.tar.gz
 }
 
 function configShell {
@@ -281,8 +248,50 @@ function configShell {
   source ~/.bashrc
 }
 
+function installDocker {
+  sudo pacman -Syy --noconfirm \
+    docker \
+    docker-compose \
+    docker-buildx
+  sudo systemctl enable --now docker.service
+  sudo usermod -aG docker $USER
+}
+
+function installLibvirt {
+  sudo pacman -Syy --noconfirm \
+    libvirt \
+    virt-manager \
+    bridge-utils \
+    qemu-base \
+    bridge-utils \
+    cloud-image-utils \
+    whois
+
+  sudo systemctl enable --now libvirtd.service
+  sudo virsh net-start default
+  sudo virsh net-autostart default
+}
+
+function installGUIApps {
+  sudo pacman -Syy --noconfirm \
+    alacritty \
+    fcitx5-im \
+    fcitx5-chewing \
+    fcitx5-mozc \
+    firefox \
+    gnome-shell-extensions \
+    gnome-browser-connector \
+    gnome-text-editor \
+    gnome-system-monitor \
+    gnome-tweaks \
+    nautilus \
+    obsidian \
+    xdg-utils
+}
+
 function installAsusctl {
   local progs=(asusctl supergfxctl)
+  sudo pacman -Syy --noconfirm clang
   for prog in "${progs[@]}"; do
     if ! command -v ${prog} &>/dev/null; then
       echo "${prog} not found! Installing ..."
@@ -299,4 +308,7 @@ installFormatters
 configShell
 
 # optional
-installAsusctl
+# installDocker
+# installLibvirt
+# installGUIApps
+# installAsusctl
