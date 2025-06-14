@@ -1,6 +1,8 @@
 return {
 	-- https://github.com/hrsh7th/nvim-cmp
 	"hrsh7th/nvim-cmp",
+	enabled = true,
+	branch = "main",
 	event = "InsertEnter",
 	dependencies = {
 		"neovim/nvim-lspconfig",

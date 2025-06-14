@@ -1,5 +1,8 @@
 return {
+	-- https://github.com/CopilotC-Nvim/CopilotChat.nvim
 	"CopilotC-Nvim/CopilotChat.nvim",
+	enabled = true,
+	branch = "main",
 	cmd = "CopilotChat",
 	opts = function()
 		local user = vim.env.USER or "User"

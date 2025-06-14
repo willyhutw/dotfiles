@@ -1,6 +1,8 @@
 return {
 	-- https://github.com/neovim/nvim-lspconfig
 	"neovim/nvim-lspconfig",
+	enabled = true,
+	version = "v2.3.0",
 	event = { "BufNewFile", "BufReadPre" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",

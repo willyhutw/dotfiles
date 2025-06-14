@@ -1,5 +1,8 @@
 return {
+	-- https://github.com/zbirenbaum/copilot.lua
 	"zbirenbaum/copilot.lua",
+	enabled = true,
+	branch = "master",
 	cmd = "Copilot",
 	event = "BufReadPost",
 	config = function()
