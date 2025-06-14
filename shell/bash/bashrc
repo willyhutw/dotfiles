@@ -23,9 +23,6 @@ alias k='kubectl'
 # aws completion
 complete -C '/usr/local/bin/aws_completer' aws
 
-# rust
-. "$HOME/.cargo/env"
-
 # go
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
