@@ -9,7 +9,6 @@ return {
 		"folke/todo-comments.nvim",
 	},
 	config = function()
-		require("telescope").load_extension("fzf")
 		require("telescope").setup({
 			extensions = {
 				fzf = {
@@ -20,6 +19,8 @@ return {
 				},
 			},
 		})
+
+		require("telescope").load_extension("fzf")
 
 		local keymap = vim.keymap
 		local builtin = require("telescope.builtin")
