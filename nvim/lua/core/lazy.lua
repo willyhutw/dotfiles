@@ -1,19 +1,17 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
 		"--filter=blob:none",
 		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
+		"--branch=main",
 		lazypath,
 	})
 end
-vim.opt.rtp:prepend(lazypath)
 
--- vim.g.mapleader = " "
-vim.g.mapleader = "\\"
-vim.g.maplocalleader = "\\"
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
 	checker = {
@@ -22,6 +20,5 @@ require("lazy").setup("plugins", {
 	},
 	change_detection = {
 		enabled = false,
-		notify = true,
 	},
 })
