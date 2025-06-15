@@ -9,7 +9,9 @@ return {
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
 				"bash",
+				"css",
 				"diff",
+				"dockerfile",
 				"go",
 				"html",
 				"javascript",
@@ -22,9 +24,9 @@ return {
 				"toml",
 				"tsx",
 				"typescript",
-				"xml",
 				"yaml",
 			},
+			auto_install = true,
 			highlight = {
 				enable = true,
 				use_languagetree = true,
