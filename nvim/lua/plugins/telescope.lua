@@ -3,6 +3,7 @@ return {
 	"nvim-telescope/telescope.nvim",
 	enabled = true,
 	branch = "master",
+	event = "VimEnter",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-tree/nvim-web-devicons",
@@ -15,19 +16,19 @@ return {
 					fuzzy = true,
 					override_generic_sorter = true,
 					override_file_sorter = true,
-					case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+					case_mode = "smart_case",
 				},
 			},
 		})
 
 		require("telescope").load_extension("fzf")
 
-		local keymap = vim.keymap
 		local builtin = require("telescope.builtin")
-		keymap.set("n", "<leader>ff", builtin.find_files, {})
-		keymap.set("n", "<leader>fg", builtin.live_grep, {})
-		keymap.set("n", "<leader>fb", builtin.buffers, {})
-		keymap.set("n", "<leader>fh", builtin.help_tags, {})
-		keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<CR>", {})
+		vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+		vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
+		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+		vim.keymap.set("n", "<leader>st", "<cmd>TodoTelescope<CR>", { desc = "[S]earch [T]odo comments" })
 	end,
 }
