@@ -1,9 +1,12 @@
 return {
+	-- https://github.com/folke/which-key.nvim
 	"folke/which-key.nvim",
 	enabled = true,
 	branch = "main",
 	event = "VeryLazy",
-	opts = {},
+	opts = {
+		preset = "classic", -- "classic" | "modern" | "helix"
+	},
 	keys = {
 		{
 			"<leader>?",
