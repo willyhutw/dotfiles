@@ -9,6 +9,18 @@ return {
 		"folke/todo-comments.nvim",
 	},
 	config = function()
+		require("telescope").load_extension("fzf")
+		require("telescope").setup({
+			extensions = {
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+				},
+			},
+		})
+
 		local keymap = vim.keymap
 		local builtin = require("telescope.builtin")
 		keymap.set("n", "<leader>ff", builtin.find_files, {})
