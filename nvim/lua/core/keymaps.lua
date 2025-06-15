@@ -3,12 +3,6 @@
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>")
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
-
 -- Keybinds to make split navigation easier.
 -- Use CTRL+<hjkl> to switch between windows
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -27,3 +21,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+-- Register keymap to the 'which-key' plugin
+local wk = require("which-key")
+wk.add({
+	{ "<leader>h", group = "+git" },
+	{ "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>", desc = "git [p]review hunk" },
+	{ "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", desc = "git [s]tage hunk" },
+	{ "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>", desc = "git [u]ndo stage hunk" },
+	{ "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", desc = "git [r]eset hunk" },
+	{ "<leader>hS", "<cmd>Gitsigns stage_buffer<CR>", desc = "git [S]tage buffer" },
+	{ "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>", desc = "git [R]eset buffer" },
+	{ "<leader>hb", "<cmd>Gitsigns blame_line<CR>", desc = "git [b]lame line" },
+	{ "<leader>hd", "<cmd>Gitsigns diffthis<CR>", desc = "git [d]iff" },
+})
