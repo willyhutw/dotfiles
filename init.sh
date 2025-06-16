@@ -209,7 +209,8 @@ function config_nvim {
     stylua \
     shfmt \
     yamlfmt \
-    lynx
+    lynx \
+    tree-sitter
 
   local destDir="${HOME}/.config/nvim"
   if [ ! -d ${destDir} ]; then
