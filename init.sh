@@ -35,7 +35,8 @@ function essentials {
     xsel \
     stylua \
     shfmt \
-    yamlfmt
+    yamlfmt \
+    less
 }
 
 function install_btop {
