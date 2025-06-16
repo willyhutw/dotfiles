@@ -6,10 +6,8 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	opts = {
 		options = {
-			indicator = {
-				style = "underline",
-			},
-			separator_style = "slope",
+			mode = "tabs", -- 'buffers' | 'tabs'
+			separator_style = "slope", -- "slant" | "slope" | "thick" | "thin"
 			diagnostics = "nvim_lsp",
 			diagnostics_indicator = function(_, _, diag)
 				local ret = (diag.error and " " .. diag.error or "")
