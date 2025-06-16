@@ -267,7 +267,8 @@ function installLibvirt {
     qemu-base \
     bridge-utils \
     cloud-image-utils \
-    whois
+    whois \
+    dnsmasq
 
   sudo systemctl enable --now libvirtd.service
   sudo virsh net-start default
