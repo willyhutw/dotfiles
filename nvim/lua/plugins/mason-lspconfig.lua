@@ -15,6 +15,7 @@ return {
 				"lua_ls",
 				"ts_ls",
 				"pyright",
+				"marksman",
 			},
 			automatic_installation = true,
 		})
