@@ -29,7 +29,9 @@ return {
 			filetypes = {
 				["*"] = true,
 			},
-			workspace_folders = {},
+			workspace_folders = {
+				"~/projects",
+			},
 			root_dir = function()
 				return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
 			end,
