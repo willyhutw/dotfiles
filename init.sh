@@ -19,6 +19,7 @@ function essentials {
 
   sudo pacman -Syy --noconfirm \
     base-devel \
+    git \
     python-pip \
     python-virtualenv \
     go \
@@ -30,12 +31,6 @@ function essentials {
     net-tools \
     iproute2 \
     inetutils \
-    fd \
-    ripgrep \
-    xsel \
-    stylua \
-    shfmt \
-    yamlfmt \
     less
 }
 
@@ -207,6 +202,15 @@ function config_tpm {
 }
 
 function config_nvim {
+  sudo pacman -Syy --noconfirm \
+    fd \
+    ripgrep \
+    xsel \
+    stylua \
+    shfmt \
+    yamlfmt \
+    lynx
+
   local destDir="${HOME}/.config/nvim"
   if [ ! -d ${destDir} ]; then
     mkdir -p ${destDir}
