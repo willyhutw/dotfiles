@@ -5,7 +5,7 @@ return {
 	branch = "main",
 	event = "VeryLazy",
 	opts = {
-		preset = "classic", -- "classic" | "modern" | "helix"
+		preset = "modern",
 	},
 	keys = {
 		{
