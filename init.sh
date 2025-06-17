@@ -14,24 +14,22 @@ SUPERGFXCTL_VER="5.2.7"
 
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
-  sudo pacman -S --noconfirm reflector
+
+  sudo pacman -Sy --noconfirm reflector
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 
-  sudo pacman -S --noconfirm \
-    base-devel \
-    git \
-    python-pip \
-    python-virtualenv \
-    go \
-    rust \
-    tmux \
+  sudo pacman -Sy --noconfirm \
     curl \
     unzip \
     dnsutils \
     net-tools \
     iproute2 \
     inetutils \
-    less
+    less \
+    base-devel \
+    python-pip \
+    python-virtualenv \
+    go
 }
 
 function install_btop {
@@ -288,7 +286,6 @@ function installLibvirt {
 
 function installGUIApps {
   sudo pacman -S --noconfirm \
-    alacritty \
     fcitx5-im \
     fcitx5-chewing \
     fcitx5-mozc \
@@ -320,9 +317,9 @@ installProgs
 configProgs
 installFormatters
 configShell
+installGUIApps
 
 # optional
 # installDocker
 # installLibvirt
-# installGUIApps
 # installAsusctl
