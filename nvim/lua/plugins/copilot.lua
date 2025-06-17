@@ -27,13 +27,29 @@ return {
 				enabled = false,
 			},
 			filetypes = {
-				["*"] = true,
+				gitcommit = false,
+				gitrebase = false,
+				help = false,
+				["."] = false,
 			},
-			workspace_folders = {
-				"~/projects",
-			},
+			workspace_folders = {},
 			root_dir = function()
 				return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
+			end,
+			should_attach = function(bufnr)
+				if vim.bo[bufnr].filetype == "copilot-chat" then
+					return true
+				end
+
+				if not vim.bo.buflisted then
+					return false
+				end
+
+				if vim.bo.buftype ~= "" then
+					return false
+				end
+
+				return true
 			end,
 		})
 	end,

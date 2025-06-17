@@ -27,7 +27,6 @@ local defaultPrompts = {
 
 return {
 	-- https://github.com/CopilotC-Nvim/CopilotChat.nvim
-	-- https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat-v2.lua
 	"CopilotC-Nvim/CopilotChat.nvim",
 	enabled = true,
 	branch = "main",
@@ -40,9 +39,7 @@ return {
 	cmd = "CopilotChat",
 	keys = {
 		{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
-		-- Toggle Copilot Chat Vsplit
 		{ "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
-		-- Show prompts actions
 		{
 			"<leader>ap",
 			function()
@@ -58,63 +55,22 @@ return {
 			mode = "x",
 			desc = "CopilotChat - Prompt actions",
 		},
-		-- Clear buffer and chat history
-		{ "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
 	},
 	opts = {
-		temperature = 0.1,
-		window = {
-			layout = "vertical",
-			width = 0.4,
-		},
-		auto_insert_mode = false,
-		insert_at_end = true,
-		chat_autocomplete = true,
 		question_header = "#  User ",
 		answer_header = "#   Copilot ",
 		prompts = defaultPrompts,
+		window = {
+			width = 0.4,
+		},
+		temperature = 0.1,
+		insert_at_end = true,
+		auto_insert_mode = false,
+		chat_autocomplete = false,
+		mappings = {
+			complete = {
+				insert = false,
+			},
+		},
 	},
-	config = function(_, opts)
-		local chat = require("CopilotChat")
-		chat.setup(opts)
-
-		local select = require("CopilotChat.select")
-		vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
-			chat.ask(args.args, { selection = select.visual })
-		end, { nargs = "*", range = true })
-
-		-- Inline chat with Copilot
-		vim.api.nvim_create_user_command("CopilotChatInline", function(args)
-			chat.ask(args.args, {
-				selection = select.visual,
-				window = {
-					layout = "float",
-					relative = "cursor",
-					width = 1,
-					height = 0.4,
-					row = 1,
-				},
-			})
-		end, { nargs = "*", range = true })
-
-		-- Restore CopilotChatBuffer
-		vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
-			chat.ask(args.args, { selection = select.buffer })
-		end, { nargs = "*", range = true })
-
-		-- Custom buffer for CopilotChat
-		vim.api.nvim_create_autocmd("BufEnter", {
-			pattern = "copilot-*",
-			callback = function()
-				vim.opt_local.relativenumber = true
-				vim.opt_local.number = true
-
-				-- Get current filetype and set it to markdown if the current filetype is copilot-chat
-				local ft = vim.bo.filetype
-				if ft == "copilot-chat" then
-					vim.bo.filetype = "markdown"
-				end
-			end,
-		})
-	end,
 }
