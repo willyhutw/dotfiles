@@ -69,7 +69,7 @@ archroot() {
   echo "$HOSTNAME" >/etc/hostname
 
   # Install and configure sudo.
-  pacman -S --needed --noconfirm sudo
+  pacman -S --noconfirm sudo
   sed -i '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /etc/sudoers
 
   # Create user and add it to the wheel group.
@@ -83,15 +83,15 @@ archroot() {
   passwd -dl root
 
   # Set boot loader.
-  pacman -S --needed --noconfirm grub efibootmgr
+  pacman -S --noconfirm grub efibootmgr
   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
   grub-mkconfig -o /boot/grub/grub.cfg
 
   # Install nvidia driver (optional).
-  pacman -S nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
+  pacman -S --noconfirm nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
 
   # Install the minimal GNOME desktop environment.
-  pacman -Sy --needed --noconfirm networkmanager gnome-control-center gdm alacritty tmux
+  pacman -S --noconfirm networkmanager gnome-control-center gdm alacritty tmux neovim git
 
   # enable services
   systemctl enable gdm.service
