@@ -284,6 +284,7 @@ function installLibvirt {
   sudo systemctl enable --now libvirtd.service
   sudo virsh net-start default
   sudo virsh net-autostart default
+  sudo usermod -aG libvirt $USER
 }
 
 function installGUIApps {
