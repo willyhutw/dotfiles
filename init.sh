@@ -212,6 +212,12 @@ function config_nvim {
     lynx \
     tree-sitter
 
+  yay -S --noconfirm \
+    luajit-tiktoken-bin \
+    --answerclean A \
+    --answerdiff N \
+    --removemake
+
   local destDir="${HOME}/.config/nvim"
   if [ ! -d ${destDir} ]; then
     mkdir -p ${destDir}
