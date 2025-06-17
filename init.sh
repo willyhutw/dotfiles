@@ -14,10 +14,10 @@ SUPERGFXCTL_VER="5.2.7"
 
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
-  sudo pacman -Syy --noconfirm reflector
+  sudo pacman -S --noconfirm reflector
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 
-  sudo pacman -Syy --noconfirm \
+  sudo pacman -S --noconfirm \
     base-devel \
     git \
     python-pip \
@@ -146,7 +146,7 @@ function config_fonts {
   mkdir -p ${fontCfgDir}
   if [ ! -f ${fontCfgDir}/fonts.conf ]; then
     echo "FontConfig not found! Installing noto fonts ..."
-    sudo pacman -Syy --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
+    sudo pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
     fc-cache -f
     cp ./fontconfig/fonts.conf ${fontCfgDir}/fonts.conf
   fi
@@ -202,7 +202,7 @@ function config_tpm {
 }
 
 function config_nvim {
-  sudo pacman -Syy --noconfirm \
+  sudo pacman -S --noconfirm \
     fd \
     ripgrep \
     xsel \
@@ -262,7 +262,7 @@ function configShell {
 }
 
 function installDocker {
-  sudo pacman -Syy --noconfirm \
+  sudo pacman -S --noconfirm \
     docker \
     docker-compose \
     docker-buildx
@@ -271,7 +271,7 @@ function installDocker {
 }
 
 function installLibvirt {
-  sudo pacman -Syy --noconfirm \
+  sudo pacman -S --noconfirm \
     libvirt \
     virt-manager \
     bridge-utils \
@@ -287,7 +287,7 @@ function installLibvirt {
 }
 
 function installGUIApps {
-  sudo pacman -Syy --noconfirm \
+  sudo pacman -S --noconfirm \
     alacritty \
     fcitx5-im \
     fcitx5-chewing \
@@ -305,7 +305,7 @@ function installGUIApps {
 
 function installAsusctl {
   local progs=(asusctl supergfxctl)
-  sudo pacman -Syy --noconfirm clang
+  sudo pacman -S --noconfirm clang
   for prog in "${progs[@]}"; do
     if ! command -v ${prog} &>/dev/null; then
       echo "${prog} not found! Installing ..."
