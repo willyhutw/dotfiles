@@ -21,7 +21,6 @@ local defaultPrompts = {
 	},
 	Commit = {
 		prompt = "Write commit message for the change with commitizen convention. Keep the title under 50 characters and wrap message at 72 characters. Format as a gitcommit code block.",
-		context = "git:staged",
 	},
 }
 
@@ -64,9 +63,11 @@ return {
 			width = 0.4,
 		},
 		temperature = 0.1,
-		insert_at_end = true,
+		model = "gpt-4.1",
+		show_help = false,
+		insert_at_end = false,
 		auto_insert_mode = false,
-		chat_autocomplete = false,
+		chat_autocomplete = true,
 		mappings = {
 			complete = {
 				insert = false,
