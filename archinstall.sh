@@ -40,6 +40,9 @@ mount --mkdir "${DISK}p1" /mnt/boot
 # Find and set fastest mirrors, this mirror list will be automatically copied into the installed system.
 reflector --country $COUNTRY --protocol https --age 24 --sort delay --save /etc/pacman.d/mirrorlist
 
+# Refresh package database.
+pacman -Sy
+
 # Install base files and update fstab.
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >>/mnt/etc/fstab
