@@ -15,10 +15,10 @@ SUPERGFXCTL_VER="5.2.7"
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
 
-  sudo pacman -Sy --noconfirm reflector
+  sudo pacman -Sy --needed --noconfirm reflector
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 
-  sudo pacman -Sy --noconfirm \
+  sudo pacman -Sy --needed --noconfirm \
     curl \
     unzip \
     dnsutils \
@@ -146,7 +146,7 @@ function config_fonts {
   mkdir -p ${fontCfgDir}
   if [ ! -f ${fontCfgDir}/fonts.conf ]; then
     echo "FontConfig not found! Installing noto fonts ..."
-    sudo pacman -S --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
+    sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
     fc-cache -f
     cp ./fontconfig/fonts.conf ${fontCfgDir}/fonts.conf
   fi
@@ -202,7 +202,7 @@ function config_tpm {
 }
 
 function config_nvim {
-  sudo pacman -S --noconfirm \
+  sudo pacman -S --needed --noconfirm \
     fd \
     ripgrep \
     xsel \
@@ -212,7 +212,7 @@ function config_nvim {
     lynx \
     tree-sitter
 
-  yay -S --noconfirm \
+  yay -S --needed --noconfirm \
     luajit-tiktoken-bin \
     --answerclean A \
     --answerdiff N \
@@ -262,7 +262,7 @@ function configShell {
 }
 
 function installDocker {
-  sudo pacman -S --noconfirm \
+  sudo pacman -S --needed --noconfirm \
     docker \
     docker-compose \
     docker-buildx
@@ -271,7 +271,7 @@ function installDocker {
 }
 
 function installLibvirt {
-  sudo pacman -S --noconfirm \
+  sudo pacman -S --needed --noconfirm \
     libvirt \
     virt-manager \
     bridge-utils \
@@ -287,7 +287,7 @@ function installLibvirt {
 }
 
 function installGUIApps {
-  sudo pacman -S --noconfirm \
+  sudo pacman -S --needed --noconfirm \
     fcitx5-im \
     fcitx5-chewing \
     fcitx5-mozc \
@@ -304,7 +304,7 @@ function installGUIApps {
 
 function installAsusctl {
   local progs=(asusctl supergfxctl)
-  sudo pacman -S --noconfirm clang
+  sudo pacman -S --needed --noconfirm clang
   for prog in "${progs[@]}"; do
     if ! command -v ${prog} &>/dev/null; then
       echo "${prog} not found! Installing ..."
