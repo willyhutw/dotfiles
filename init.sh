@@ -107,7 +107,7 @@ function install_argocd {
   local fileName="argocd-linux-amd64"
   sudo curl -LO https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/${fileName}
   sudo install -o root -g root -m 0755 ${fileName} /usr/local/bin/argocd
-  rm ${fileName}
+  rm -f ${fileName}
 }
 
 function install_asusctl {
