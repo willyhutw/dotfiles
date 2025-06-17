@@ -84,9 +84,17 @@ archroot() {
   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
   grub-mkconfig -o /boot/grub/grub.cfg
 
-  # Install and enable network manager.
-  pacman -S --needed --noconfirm networkmanager
+  # Install nvidia driver (optional).
+  pacman -S nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
+
+  # Install the minimal GNOME desktop environment.
+  pacman -Sy --needed --noconfirm networkmanager gnome-control-center gdm alacritty tmux
+
+  # enable services
+  systemctl enable gdm.service
   systemctl enable NetworkManager
+  systemctl enable bluetooth.service
+  systemctl enable switcheroo-control.service
 
   echo "Finished archroot."
 }
