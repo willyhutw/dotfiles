@@ -29,7 +29,9 @@ function essentials {
     base-devel \
     python-pip \
     python-virtualenv \
-    go
+    go \
+    libmtp \
+    gvfs-mtp
 }
 
 function install_btop {
