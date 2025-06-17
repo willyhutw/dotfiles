@@ -93,6 +93,9 @@ archroot() {
   # Install the minimal GNOME desktop environment.
   pacman -S --noconfirm networkmanager gnome-control-center gdm alacritty tmux neovim git
 
+  # Enable the experimental fractional scaling feature.
+  gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
   # enable services
   systemctl enable gdm.service
   systemctl enable NetworkManager
