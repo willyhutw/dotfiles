@@ -31,7 +31,9 @@ function essentials {
     python-virtualenv \
     go \
     libmtp \
-    gvfs-mtp
+    gvfs-mtp \
+    jq \
+    yq
 }
 
 function install_btop {
