@@ -79,4 +79,17 @@ return {
 			},
 		},
 	},
+	config = function(_, opts)
+		local chat = require("CopilotChat")
+		chat.setup(opts)
+
+		-- custom buffer for CopilotChat
+		vim.api.nvim_create_autocmd("BufEnter", {
+			pattern = "copilot-chat",
+			callback = function()
+				-- disable showing line number
+				vim.opt_local.number = false
+			end,
+		})
+	end,
 }
