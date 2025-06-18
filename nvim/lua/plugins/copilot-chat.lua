@@ -38,6 +38,7 @@ return {
 	cmd = "CopilotChat",
 	keys = {
 		{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+		-- Toggle CopilotChat
 		{ "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
 		{
 			"<leader>ap",
@@ -67,7 +68,11 @@ return {
 		show_help = false,
 		insert_at_end = false,
 		auto_insert_mode = false,
+
+		-- Enable cmp (able to show available contexts, promts, models, etc.)
 		chat_autocomplete = true,
+
+		-- Disable the `complete` keymap to allow copilot suggestion completion
 		mappings = {
 			complete = {
 				insert = false,

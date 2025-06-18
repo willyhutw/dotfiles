@@ -36,11 +36,14 @@ return {
 			root_dir = function()
 				return vim.fs.dirname(vim.fs.find(".git", { upward = true })[1])
 			end,
+			-- Override `should_attach` to allow suggestions in CopilotChat
 			should_attach = function(bufnr)
+				-- allow attach to CopilotChat buffer
 				if vim.bo[bufnr].filetype == "copilot-chat" then
 					return true
 				end
 
+				-- Down below is the default behavior for other buffers
 				if not vim.bo.buflisted then
 					return false
 				end
