@@ -40,6 +40,28 @@ return {
 		{ "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
 		-- Toggle CopilotChat
 		{ "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
+		-- Save and Load CopilotChat
+		{
+			"<leader>as",
+			function()
+				local filename = vim.fn.input("Save chat as: ")
+				if filename ~= "" then
+					vim.cmd("CopilotChatSave " .. filename)
+				end
+			end,
+			desc = "CopilotChat - Save As...",
+		},
+		{
+			"<leader>al",
+			function()
+				local filename = vim.fn.input("Load chat from: ")
+				if filename ~= "" then
+					vim.cmd("CopilotChatLoad " .. filename)
+				end
+			end,
+			desc = "CopilotChat - Load...",
+		},
+		-- Select prompt actions
 		{
 			"<leader>ap",
 			function()
