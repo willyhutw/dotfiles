@@ -19,21 +19,24 @@ function essentials {
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 
   sudo pacman -Sy --needed --noconfirm \
+    man-db \
     curl \
     unzip \
+    less \
+    fzf \
+    bat \
+    jq \
+    yq \
     dnsutils \
     net-tools \
     iproute2 \
     inetutils \
-    less \
+    libmtp \
+    gvfs-mtp \
     base-devel \
     python-pip \
     python-virtualenv \
-    go \
-    libmtp \
-    gvfs-mtp \
-    jq \
-    yq
+    go
 }
 
 function install_btop {
@@ -264,6 +267,7 @@ function configShell {
   helm completion bash >${HOME}/.local/share/bash-completion/completions/helm
   argocd completion bash >${HOME}/.local/share/bash-completion/completions/argocd
 
+  fzf --bash >${HOME}/.local/share/bash-completion/completions/fzf
   cp -f ./shell/gitconfig ~/.gitconfig
   cp -f ./shell/bash/bashrc ~/.bashrc
   source ~/.bashrc
