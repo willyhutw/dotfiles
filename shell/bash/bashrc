@@ -10,19 +10,20 @@ PS1='[\u@\h \W]\$ '
 
 # aliases
 alias ls='ls --color=auto'
-alias ll='ls -lha --color=auto'
+alias ll='ls -lh --color=auto'
+alias lla='ls -lha --color=auto'
+alias cat='bat -p'
 alias grep='grep --color=auto'
 alias vi='nvim'
 alias vim='nvim'
 alias k='kubectl'
 alias fzfp='fzf --preview "bat --style=numbers --color=always {}"'
 
-# general bash completion
-[[ $PS1 && -d /usr/share/bash-completion/completions ]] &&
-  . /usr/share/bash-completion/completions/*
+# man
+export MANPAGER='sh -c "col -bx | bat -l man -p"'
 
-# aws completion
-complete -C '/usr/local/bin/aws_completer' aws
+# common env
+export EDITOR=nvim
 
 # go
 export PATH=$PATH:/usr/local/go/bin
@@ -33,8 +34,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# common env
-export EDITOR=nvim
+# general bash completion
+[[ $PS1 && -d ${HOME}/.local/share/bash-completion/completions ]] &&
+  source ${HOME}/.local/share/bash-completion/completions/*
+
+# aws completion
+complete -C '/usr/local/bin/aws_completer' aws
 
 # fzf integration
 eval "$(fzf --bash)"
