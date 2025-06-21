@@ -34,7 +34,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# general bash completion
+# global completion
+[[ $PS1 && -d /usr/share/bash-completion/completions ]] &&
+  source /usr/share/bash-completion/completions/*
+
+# local completion
 [[ $PS1 && -d ${HOME}/.local/share/bash-completion/completions ]] &&
   source ${HOME}/.local/share/bash-completion/completions/*
 
