@@ -34,8 +34,7 @@ function essentials {
     libmtp \
     gvfs-mtp \
     base-devel \
-    python-pip \
-    python-virtualenv \
+    uv \
     go
 }
 
