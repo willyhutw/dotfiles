@@ -260,15 +260,17 @@ function installFormatters {
 }
 
 function configShell {
+  # bash completion
   mkdir -p ${HOME}/.local/share/bash-completion/completions
-
   kubectl completion bash >${HOME}/.local/share/bash-completion/completions/kubectl
   k9s completion bash >${HOME}/.local/share/bash-completion/completions/k9s
   helm completion bash >${HOME}/.local/share/bash-completion/completions/helm
   argocd completion bash >${HOME}/.local/share/bash-completion/completions/argocd
 
-  fzf --bash >${HOME}/.local/share/bash-completion/completions/fzf
+  # git config
   cp -f ./shell/gitconfig ~/.gitconfig
+
+  # bashrc
   cp -f ./shell/bash/bashrc ~/.bashrc
   source ~/.bashrc
 }
