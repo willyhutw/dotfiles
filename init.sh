@@ -19,6 +19,7 @@ function essentials {
   reflector -c tw -p https -a 24 --sort delay | sudo tee /etc/pacman.d/mirrorlist
 
   sudo pacman -Sy --needed --noconfirm \
+    bash-completion \
     man-db \
     curl \
     unzip \
