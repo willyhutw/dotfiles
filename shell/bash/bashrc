@@ -15,6 +15,7 @@ alias grep='grep --color=auto'
 alias vi='nvim'
 alias vim='nvim'
 alias k='kubectl'
+alias fzfp='fzf --preview "bat --style=numbers --color=always {}"'
 
 # general bash completion
 [[ $PS1 && -d /usr/share/bash-completion/completions ]] &&
