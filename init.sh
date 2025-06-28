@@ -28,6 +28,7 @@ function essentials {
     bat \
     jq \
     yq \
+    fastfetch \
     dnsutils \
     net-tools \
     iproute2 \
