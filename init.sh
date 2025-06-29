@@ -37,7 +37,8 @@ function essentials {
     gvfs-mtp \
     base-devel \
     uv \
-    go
+    go \
+    vlc
 }
 
 function install_btop {
