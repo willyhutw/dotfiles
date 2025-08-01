@@ -16,6 +16,11 @@ return {
 				sh = { "shfmt" },
 				yaml = { "yamlfmt" },
 			},
+			formatters = {
+				yamlfmt = {
+					args = { "-formatter", "retain_line_breaks=true", "-" },
+				},
+			},
 			default_format_opts = {
 				lsp_format = "fallback",
 			},
