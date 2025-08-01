@@ -18,7 +18,7 @@ return {
 			},
 			formatters = {
 				yamlfmt = {
-					args = { "-formatter", "retain_line_breaks=true", "-" },
+					args = { "-formatter", "retain_line_breaks=true", "indentless_arrays=true", "-" },
 				},
 			},
 			default_format_opts = {
