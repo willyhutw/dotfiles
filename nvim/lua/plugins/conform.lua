@@ -15,6 +15,7 @@ return {
 				rust = { "rustfmt" },
 				sh = { "shfmt" },
 				yaml = { "yamlfmt" },
+				terraform = { "terraform_fmt" },
 			},
 			formatters = {
 				yamlfmt = {
