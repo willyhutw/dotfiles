@@ -18,6 +18,7 @@ alias vi='nvim'
 alias vim='nvim'
 alias k='kubectl'
 alias fzfp='fzf --preview "bat --style=numbers --color=always {}"'
+alias code="/usr/bin/code --force-device-scale-factor=1.5"
 
 # man
 export MANPAGER='sh -c "col -bx | bat -l man -p"'
