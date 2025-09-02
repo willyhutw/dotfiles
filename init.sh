@@ -37,8 +37,7 @@ function essentials {
     gvfs-mtp \
     base-devel \
     uv \
-    go \
-    vlc
+    go
 }
 
 function install_btop {
@@ -316,7 +315,8 @@ function installGUIApps {
     gnome-tweaks \
     nautilus \
     obsidian \
-    xdg-utils
+    xdg-utils \
+    vlc
 }
 
 function installAsusctl {
