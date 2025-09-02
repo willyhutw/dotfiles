@@ -277,15 +277,6 @@ function configShell {
   source ~/.bashrc
 }
 
-function installDocker {
-  sudo pacman -S --needed --noconfirm \
-    docker \
-    docker-compose \
-    docker-buildx
-  sudo systemctl enable --now docker.service
-  sudo usermod -aG docker $USER
-}
-
 function installLibvirt {
   sudo pacman -S --needed --noconfirm \
     libvirt \
@@ -339,7 +330,6 @@ installFormatters
 configShell
 installGUIApps
 
-# optional
-# installDocker
+# === Optional ===
 # installLibvirt
 # installAsusctl
