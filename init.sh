@@ -37,7 +37,8 @@ function essentials {
     gvfs-mtp \
     base-devel \
     uv \
-    go
+    go \
+    podman
 }
 
 function install_btop {
