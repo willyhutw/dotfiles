@@ -321,7 +321,7 @@ function installGUIApps {
 
 function installAsusctl {
   local progs=(asusctl supergfxctl)
-  sudo pacman -S --needed --noconfirm clang
+  sudo pacman -S --needed --noconfirm clang rust
   for prog in "${progs[@]}"; do
     if ! command -v ${prog} &>/dev/null; then
       echo "${prog} not found! Installing ..."
