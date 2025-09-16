@@ -308,7 +308,8 @@ function installGUIApps {
     nautilus \
     obsidian \
     xdg-utils \
-    vlc
+    vlc \
+    seahorse
 
   yay -S --needed --noconfirm \
     google-chrome \
