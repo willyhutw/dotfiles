@@ -51,7 +51,3 @@ eval "$(fzf --bash)"
 
 # uv
 export PATH=$HOME/.local/bin:$PATH
-
-# docker rootless
-export PATH=$HOME/bin:$PATH
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
