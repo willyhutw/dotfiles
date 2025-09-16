@@ -310,6 +310,13 @@ function installGUIApps {
     xdg-utils \
     vlc
 
+  yay -S --needed --noconfirm \
+    google-chrome \
+    visual-studio-code-bin \
+    --answerclean A \
+    --answerdiff N \
+    --removemake
+
   # override gnome desktop applications
   mkdir -p ~/.local/share/applications
   sudo cp -f desktop/*.desktop ~/.local/share/applications/
