@@ -309,6 +309,11 @@ function installGUIApps {
     obsidian \
     xdg-utils \
     vlc
+
+  # override gnome desktop applications
+  mkdir -p ~/.local/share/applications
+  sudo cp -f desktop/*.desktop ~/.local/share/applications/
+  update-desktop-database ~/.local/share/applications/
 }
 
 function installAsusctl {
@@ -331,5 +336,5 @@ configShell
 installGUIApps
 
 # === Optional ===
-# installLibvirt
+installLibvirt
 # installAsusctl
