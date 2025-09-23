@@ -320,7 +320,7 @@ function installGUIApps {
 
   # override gnome desktop applications
   mkdir -p ~/.local/share/applications
-  sudo cp -f desktop/*.desktop ~/.local/share/applications/
+  sudo cp -f desktop/applications/*.desktop ~/.local/share/applications/
   update-desktop-database ~/.local/share/applications/
 }
 
