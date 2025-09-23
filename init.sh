@@ -303,6 +303,7 @@ function installGUIApps {
     gnome-shell-extensions \
     gnome-browser-connector \
     gnome-text-editor \
+    gnome-calculator \
     gnome-system-monitor \
     gnome-tweaks \
     nautilus \
