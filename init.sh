@@ -306,6 +306,7 @@ function installGUIApps {
     gnome-calculator \
     gnome-system-monitor \
     gnome-tweaks \
+    gnome-clocks \
     nautilus \
     obsidian \
     xdg-utils \
