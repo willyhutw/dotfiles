@@ -17,3 +17,6 @@
   rb = rebase
   pl = pull
   ps = push
+
+[includeIf "gitdir:~/projects/company/"]
+  path = ~/.gitconfig-company
