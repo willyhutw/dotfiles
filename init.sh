@@ -271,6 +271,11 @@ function configShell {
 
   # git config
   cp -f ./shell/gitconfig ~/.gitconfig
+  cp -f ./shell/gitconfig-company ~/.gitconfig-company
+
+  # ssh config
+  mkdir -p ~/.ssh
+  cp -f ./shell/ssh/config ~/.ssh/config
 
   # bashrc
   cp -f ./shell/bash/bashrc ~/.bashrc
