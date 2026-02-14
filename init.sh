@@ -2,13 +2,13 @@
 
 set -ue
 
-btop_ver="v1.4.5"
-argo_ver="v3.2.1"
-helm_ver="v3.19.4"
-k9s_ver="v0.50.16"
-nvm_ver="v0.40.3"
-kubectl_ver="v1.34.3"
-syncthing_ver="v2.0.12"
+btop_ver="v1.4.6"
+argo_ver="v3.3.0"
+helm_ver="v4.1.1"
+k9s_ver="v0.50.18"
+nvm_ver="v0.40.4"
+kubectl_ver="v1.35.1"
+syncthing_ver="v2.0.14"
 asusctl_ver="6.1.12"
 supergfxctl_ver="5.2.7"
 
