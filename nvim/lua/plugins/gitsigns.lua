@@ -4,6 +4,8 @@ return {
 	enabled = true,
 	branch = "main",
 	opts = {
+		current_line_blame = true,
+
 		on_attach = function(bufnr)
 			local gitsigns = require("gitsigns")
 
