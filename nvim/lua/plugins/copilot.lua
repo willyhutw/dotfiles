@@ -7,7 +7,6 @@ return {
 	event = "BufReadPost",
 	config = function()
 		require("copilot").setup({
-			copilot_model = "gpt-4.1",
 			suggestion = {
 				enabled = true,
 				auto_trigger = true,

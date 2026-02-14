@@ -86,7 +86,6 @@ return {
 			width = 0.4,
 		},
 		temperature = 0.1,
-		model = "gpt-4.1",
 		show_help = false,
 		insert_at_end = false,
 		auto_insert_mode = false,
