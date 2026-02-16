@@ -88,7 +88,7 @@ archroot() {
   grub-mkconfig -o /boot/grub/grub.cfg
 
   # Install nvidia driver (optional).
-  pacman -S --noconfirm nvidia nvidia-utils nvidia-settings nvtop switcheroo-control
+  pacman -S --noconfirm nvidia-open nvidia-utils nvidia-settings nvtop switcheroo-control
 
   # Install the minimal GNOME desktop environment.
   pacman -S --noconfirm networkmanager gnome-control-center gdm alacritty tmux neovim git
