@@ -2,15 +2,15 @@
 
 set -ue
 
-btop_ver="v1.4.6"
-argo_ver="v3.3.0"
-helm_ver="v4.1.1"
-k9s_ver="v0.50.18"
-nvm_ver="v0.40.4"
-kubectl_ver="v1.35.1"
-syncthing_ver="v2.0.14"
-asusctl_ver="6.1.12"
-supergfxctl_ver="5.2.7"
+BTOP_VER="v1.4.5"
+ARGO_VER="v3.3.0"
+HELM_VER="v4.1.1"
+K9S_VER="v0.50.18"
+NVM_VER="v0.40.4"
+KUBECTL_VER="v1.35.1"
+SYNCTHING_VER="v2.0.14"
+ASUSCTL_VER="6.1.12"
+SUPERGFXCTL_VER="5.2.7"
 
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
