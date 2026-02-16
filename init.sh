@@ -285,9 +285,8 @@ function installLibvirt {
   sudo pacman -S --needed --noconfirm \
     libvirt \
     virt-manager \
-    bridge-utils \
+    iproute2 \
     qemu-base \
-    bridge-utils \
     cloud-image-utils \
     whois \
     dnsmasq
