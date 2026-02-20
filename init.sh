@@ -28,6 +28,7 @@ function essentials {
     bat \
     jq \
     yq \
+    direnv \
     fastfetch \
     dnsutils \
     net-tools \
