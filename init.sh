@@ -30,6 +30,7 @@ function essentials {
     yq \
     direnv \
     fastfetch \
+    hugo \
     dnsutils \
     net-tools \
     iproute2 \
