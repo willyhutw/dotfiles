@@ -88,19 +88,15 @@ archroot() {
   grub-mkconfig -o /boot/grub/grub.cfg
 
   # Install nvidia driver (optional).
-  pacman -S --noconfirm nvidia-open nvidia-utils nvidia-settings nvtop switcheroo-control
+  pacman -S --noconfirm nvidia-open nvidia-utils nvidia-settings nvtop nvidia-prime
 
   # Install the minimal GNOME desktop environment.
   pacman -S --noconfirm networkmanager gnome-control-center gdm alacritty tmux neovim git
-
-  # Enable the experimental fractional scaling feature.
-  gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
   # enable services
   systemctl enable gdm.service
   systemctl enable NetworkManager
   systemctl enable bluetooth.service
-  systemctl enable switcheroo-control.service
 
   echo "Finished archroot."
 }
