@@ -1,0 +1,21 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox (NVIDIA)
+GenericName=Web Browser
+Exec=env GDK_DPI_SCALE=1.25 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia MOZ_ENABLE_WAYLAND=0 /usr/lib/firefox/firefox %u
+StartupNotify=true
+Terminal=false
+X-MultipleArgs=false
+Icon=firefox
+Type=Application
+Categories=GNOME;GTK;Network;WebBrowser;
+StartupWMClass=firefox
+DBusActivatable=false
+
+[Desktop Action new-window]
+Name=New Window
+Exec=env GDK_DPI_SCALE=1.25 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia MOZ_ENABLE_WAYLAND=0 /usr/lib/firefox/firefox --new-window
+
+[Desktop Action new-private-window]
+Name=New Private Window
+Exec=env GDK_DPI_SCALE=1.25 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia MOZ_ENABLE_WAYLAND=0 /usr/lib/firefox/firefox --private-window
