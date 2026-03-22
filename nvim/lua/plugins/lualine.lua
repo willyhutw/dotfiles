@@ -1,5 +1,4 @@
 return {
-	{ "AndreM222/copilot-lualine" },
 	{
 		-- https://github.com/nvim-lualine/lualine.nvim
 		"nvim-lualine/lualine.nvim",
@@ -44,7 +43,7 @@ return {
 					lualine_a = { "mode" },
 					lualine_b = { "branch", "diff", "diagnostics" },
 					lualine_c = { "filename" },
-					lualine_x = { "copilot", "encoding", "filetype" },
+					lualine_x = { "encoding", "filetype" },
 					lualine_y = { "progress" },
 					lualine_z = { "location" },
 				},
