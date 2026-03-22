@@ -237,6 +237,14 @@ function config_fcitx5 {
   cp -rf ./fcitx5 ~/.config/
 }
 
+function config_claude {
+  local claudeDir="${HOME}/.claude"
+  ln -sf "$(pwd)/claude/CLAUDE.md" ${claudeDir}/CLAUDE.md
+  ln -sf "$(pwd)/claude/settings.json" ${claudeDir}/settings.json
+  ln -sf "$(pwd)/claude/statusline.sh" ${claudeDir}/statusline.sh
+  ln -sfT "$(pwd)/claude/hooks" ${claudeDir}/hooks
+}
+
 function installProgs {
   local progs=(argocd aws btop helm k9s kubectl nvm syncthing yay)
   for prog in "${progs[@]}"; do
@@ -250,7 +258,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty fcitx5 fonts nerdfonts nvim tmux tpm)
+  local progs=(alacritty claude fcitx5 fonts nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
