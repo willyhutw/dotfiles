@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -ue
+set -ueo pipefail
+
+cd "$(dirname "$(realpath "$0")")"
 
 BTOP_VER="v1.4.5"
 ARGO_VER="v3.3.0"
@@ -47,9 +49,7 @@ function install_btop {
   local fileName="btop-i686-linux-musl.tbz"
   curl -LO https://github.com/aristocratos/btop/releases/download/${BTOP_VER}/${fileName}
   tar -xf ${fileName}
-  cd ${prog}
-  sudo ./install.sh
-  cd ..
+  (cd ${prog} && sudo ./install.sh)
   rm -rf ${prog}
   rm ${fileName}
 }
@@ -115,7 +115,7 @@ function install_helm {
 
 function install_argocd {
   local fileName="argocd-linux-amd64"
-  sudo curl -LO https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/${fileName}
+  curl -LO https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/${fileName}
   sudo install -o root -g root -m 0755 ${fileName} /usr/local/bin/argocd
   rm -f ${fileName}
 }
@@ -123,36 +123,30 @@ function install_argocd {
 function install_asusctl {
   local prog="asusctl"
   git clone --depth 1 --branch ${ASUSCTL_VER} https://gitlab.com/asus-linux/${prog}.git
-  cd ${prog}
-  make && sudo make install
+  (cd ${prog} && make && sudo make install)
   sudo systemctl enable --now asusd.service
-  cd ..
   rm -rf ${prog}
 }
 
 function install_supergfxctl {
   local prog="supergfxctl"
   git clone --depth 1 --branch ${SUPERGFXCTL_VER} https://gitlab.com/asus-linux/${prog}.git
-  cd ${prog}
-  make && sudo make install
+  (cd ${prog} && make && sudo make install)
   sudo systemctl enable --now supergfxd.service
-  cd ..
   rm -rf ${prog}
 }
 
 function install_yay {
   local prog="yay-bin"
   git clone https://aur.archlinux.org/${prog}.git
-  cd ${prog}
-  makepkg -si --noconfirm
-  cd ..
+  (cd ${prog} && makepkg -si --noconfirm)
   rm -rf ${prog}
 }
 
 function config_fonts {
   local fontCfgDir="${HOME}/.config/fontconfig"
   mkdir -p ${fontCfgDir}
-  echo "FontConfig not found! Installing noto fonts ..."
+  echo "Installing noto fonts ..."
   sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
   fc-cache -f
   ln -sf "$(pwd)/fontconfig/fonts.conf" ${fontCfgDir}/fonts.conf
@@ -220,6 +214,7 @@ function config_fcitx5 {
 
 function config_claude {
   local claudeDir="${HOME}/.claude"
+  mkdir -p ${claudeDir}
   ln -sf "$(pwd)/claude/CLAUDE.md" ${claudeDir}/CLAUDE.md
   ln -sf "$(pwd)/claude/settings.json" ${claudeDir}/settings.json
   ln -sf "$(pwd)/claude/statusline.sh" ${claudeDir}/statusline.sh
@@ -316,7 +311,7 @@ function installGUIApps {
 
   # override gnome desktop applications
   mkdir -p ~/.local/share/applications
-  sudo cp -f desktop/applications/*.desktop ~/.local/share/applications/
+  cp -f desktop/applications/*.desktop ~/.local/share/applications/
   update-desktop-database ~/.local/share/applications/
 }
 
@@ -340,5 +335,5 @@ configShell
 installGUIApps
 
 # === Optional ===
-installLibvirt
+# installLibvirt
 # installAsusctl
