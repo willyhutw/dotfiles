@@ -152,12 +152,10 @@ function install_yay {
 function config_fonts {
   local fontCfgDir="${HOME}/.config/fontconfig"
   mkdir -p ${fontCfgDir}
-  if [ ! -f ${fontCfgDir}/fonts.conf ]; then
-    echo "FontConfig not found! Installing noto fonts ..."
-    sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
-    fc-cache -f
-    cp ./fontconfig/fonts.conf ${fontCfgDir}/fonts.conf
-  fi
+  echo "FontConfig not found! Installing noto fonts ..."
+  sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
+  fc-cache -f
+  ln -sf "$(pwd)/fontconfig/fonts.conf" ${fontCfgDir}/fonts.conf
 }
 
 function config_nerdfonts {
@@ -177,24 +175,11 @@ function config_nerdfonts {
 }
 
 function config_alacritty {
-  local prog="alacritty"
-  local cfgDir=${HOME}/.config/${prog}
-  mkdir -p ${cfgDir}/themes
-  cp ${prog}/${prog}.toml ${cfgDir}
-  local themes=("tokyonight_night" "gruvbox_dark")
-  for theme in "${themes[@]}"; do
-    cp ${prog}/themes/${theme}.toml ${cfgDir}/themes
-  done
+  ln -sfT "$(pwd)/alacritty" "${HOME}/.config/alacritty"
 }
 
 function config_tmux {
-  local cfgDir=${HOME}/.config/tmux
-  mkdir -p ${cfgDir}/themes
-  cp tmux/tmux.conf ${cfgDir}
-  local themes=("tokyonight_night" "gruvbox_dark")
-  for theme in "${themes[@]}"; do
-    cp tmux/themes/${theme}.tmux ${cfgDir}/themes
-  done
+  ln -sfT "$(pwd)/tmux" "${HOME}/.config/tmux"
 }
 
 function config_tpm {
@@ -226,15 +211,11 @@ function config_nvim {
     --answerdiff N \
     --removemake
 
-  local destDir="${HOME}/.config/nvim"
-  if [ ! -d ${destDir} ]; then
-    mkdir -p ${destDir}
-    cp -rf nvim/* ${destDir}/
-  fi
+  ln -sfT "$(pwd)/nvim" "${HOME}/.config/nvim"
 }
 
 function config_fcitx5 {
-  cp -rf ./fcitx5 ~/.config/
+  ln -sfT "$(pwd)/fcitx5" "${HOME}/.config/fcitx5"
 }
 
 function config_claude {
@@ -279,15 +260,15 @@ function configShell {
   argocd completion bash >${HOME}/.local/share/bash-completion/completions/argocd
 
   # git config
-  cp -f ./shell/gitconfig ~/.gitconfig
-  cp -f ./shell/gitconfig-company ~/.gitconfig-company
+  ln -sf "$(pwd)/shell/gitconfig" ~/.gitconfig
+  ln -sf "$(pwd)/shell/gitconfig-company" ~/.gitconfig-company
 
   # ssh config
   mkdir -p ~/.ssh
-  cp -f ./shell/ssh/config ~/.ssh/config
+  ln -sf "$(pwd)/shell/ssh/config" ~/.ssh/config
 
   # bashrc
-  cp -f ./shell/bash/bashrc ~/.bashrc
+  ln -sf "$(pwd)/shell/bash/bashrc" ~/.bashrc
   source ~/.bashrc
 }
 
