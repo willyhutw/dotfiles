@@ -18,5 +18,5 @@
   pl = pull
   ps = push
 
-[includeIf "gitdir:~/projects/company/"]
-  path = ~/.gitconfig-company
+[includeIf "gitdir:~/projects/clario/"]
+  path = ~/.gitconfig-clario
