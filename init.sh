@@ -41,7 +41,9 @@ function essentials {
     gvfs-mtp \
     base-devel \
     go \
-    podman
+    podman \
+    speech-dispatcher \
+    mangohud
 }
 
 function install_btop {
@@ -176,6 +178,11 @@ function config_tmux {
   ln -sfT "$(pwd)/tmux" "${HOME}/.config/tmux"
 }
 
+function config_mangohud {
+  rm -rf "${HOME}/.config/MangoHud"
+  ln -sfT "$(pwd)/mangohud" "${HOME}/.config/MangoHud"
+}
+
 function config_tpm {
   local tag="3.1.0"
   local pluginDir="${HOME}/.tmux/plugins"
@@ -234,7 +241,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty claude fcitx5 fonts nerdfonts nvim tmux tpm)
+  local progs=(alacritty claude fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}

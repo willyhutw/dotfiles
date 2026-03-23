@@ -58,3 +58,6 @@ export PATH=$HOME/.local/bin:$PATH
 
 # direnv
 eval "$(direnv hook bash)"
+
+# MangoHud
+MANGOHUD=1
