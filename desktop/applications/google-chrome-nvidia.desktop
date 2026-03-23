@@ -2,19 +2,19 @@
 Version=1.0
 Name=Google Chrome (NVIDIA)
 GenericName=Web Browser
-Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable %U --ozone-platform=x11 --force-device-scale-factor=1.25
+Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable %U --ozone-platform=x11 --class=google-chrome-nvidia
 StartupNotify=true
 Terminal=false
 Icon=google-chrome
 Type=Application
 Categories=Network;WebBrowser;
 MimeType=application/pdf;text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
-StartupWMClass=google-chrome
+StartupWMClass=google-chrome-nvidia
 
 [Desktop Action new-window]
 Name=New Window
-Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable --ozone-platform=x11 --force-device-scale-factor=1.25
+Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable --ozone-platform=x11 --class=google-chrome-nvidia
 
 [Desktop Action new-incognito-window]
 Name=New Incognito Window
-Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable --incognito --ozone-platform=x11 --force-device-scale-factor=1.25
+Exec=env __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia /usr/bin/google-chrome-stable --incognito --ozone-platform=x11 --class=google-chrome-nvidia
