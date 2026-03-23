@@ -327,12 +327,14 @@ function installAsusctl {
   done
 }
 
-essentials
-installProgs
-configProgs
-installFormatters
-configShell
-installGUIApps
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  essentials
+  installProgs
+  configProgs
+  installFormatters
+  configShell
+  installGUIApps
+fi
 
 # === Optional ===
 # installLibvirt
