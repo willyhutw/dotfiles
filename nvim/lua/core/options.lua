@@ -33,6 +33,12 @@ vim.o.confirm = true
 -- mouse support
 vim.o.mouse = "a"
 
+-- auto-reload files changed outside nvim
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  command = "checktime",
+})
+
 -- sync clipboard
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
