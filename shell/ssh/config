@@ -1,5 +1,5 @@
 Host gitlab.com
   HostName gitlab.com
   User git
-  IdentityFile ~/.ssh/id_ed25519_company
+  IdentityFile ~/.ssh/id_ed25519_clario
   IdentitiesOnly yes
