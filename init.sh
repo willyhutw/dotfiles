@@ -43,7 +43,9 @@ function essentials {
     go \
     podman \
     speech-dispatcher \
-    mangohud
+    mangohud \
+    cronie
+  sudo systemctl enable --now cronie.service
 }
 
 function install_btop {
@@ -219,6 +221,10 @@ function config_fcitx5 {
   ln -sfT "$(pwd)/fcitx5" "${HOME}/.config/fcitx5"
 }
 
+function config_cron {
+  crontab "$(pwd)/cron/crontab"
+}
+
 function config_claude {
   local claudeDir="${HOME}/.claude"
   mkdir -p ${claudeDir}
@@ -241,7 +247,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty claude fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
+  local progs=(alacritty claude cron fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
