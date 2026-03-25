@@ -1,0 +1,2 @@
+# Claude config sync to Syncthing
+0 * * * * [ -d /home/willyhu/sync-personal ] && rsync -aL --delete --exclude='.credentials.json' --exclude='history.jsonl' --exclude='sessions/' --exclude='session-env/' --exclude='shell-snapshots/' --exclude='file-history/' --exclude='cache/' --exclude='downloads/' --exclude='telemetry/' /home/willyhu/.claude/ /home/willyhu/sync-personal/claude/
