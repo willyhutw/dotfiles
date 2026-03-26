@@ -232,6 +232,7 @@ function config_claude {
   ln -sf "$(pwd)/claude/settings.json" ${claudeDir}/settings.json
   ln -sf "$(pwd)/claude/statusline.sh" ${claudeDir}/statusline.sh
   ln -sfT "$(pwd)/claude/hooks" ${claudeDir}/hooks
+  ln -sfT "$(pwd)/claude/skills" ${claudeDir}/skills
 }
 
 function installProgs {
