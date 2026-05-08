@@ -270,7 +270,7 @@ function configShell {
 
   # git config
   ln -sf "$(pwd)/shell/gitconfig" ~/.gitconfig
-  ln -sf "$(pwd)/shell/gitconfig-company" ~/.gitconfig-company
+  ln -sf "$(pwd)/shell/gitconfig-clario" ~/.gitconfig-clario
 
   # ssh config
   mkdir -p ~/.ssh
