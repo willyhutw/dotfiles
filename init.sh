@@ -319,6 +319,7 @@ function installGUIApps {
   yay -S --needed --noconfirm \
     google-chrome \
     visual-studio-code-bin \
+    downgrade \
     --answerclean A \
     --answerdiff N \
     --removemake
