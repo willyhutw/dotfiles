@@ -41,6 +41,7 @@ function essentials {
     gvfs-mtp \
     base-devel \
     go \
+    opentofu \
     podman \
     speech-dispatcher \
     mangohud \
