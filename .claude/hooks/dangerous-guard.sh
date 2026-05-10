@@ -14,10 +14,10 @@ fi
 # ─────────────────────────────────────────
 # Rule 1: kubectl — allowlist read-only operations only
 # ─────────────────────────────────────────
-KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events'
+KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec'
 
 if echo "$COMMAND" | grep -qE 'kubectl\s+'; then
-  if ! echo "$COMMAND" | grep -qE "kubectl\s+($KUBECTL_ALLOWED)"; then
+  if ! echo "$COMMAND" | grep -qE "\b($KUBECTL_ALLOWED)\b"; then
     echo "🚨 BLOCKED: kubectl write operation must be run manually."
     echo ""
     echo "Command: $COMMAND"
