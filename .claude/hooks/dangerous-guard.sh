@@ -14,7 +14,7 @@ fi
 # ─────────────────────────────────────────
 # Rule 1: kubectl — allowlist read-only operations only
 # ─────────────────────────────────────────
-KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec'
+KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec|rollout|cordon|uncordon'
 
 if echo "$COMMAND" | grep -qE 'kubectl\s+'; then
   if ! echo "$COMMAND" | grep -qE "\b($KUBECTL_ALLOWED)\b"; then
