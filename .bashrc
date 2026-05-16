@@ -55,6 +55,7 @@ eval "$(fzf --bash)"
 
 # uv
 export PATH=$HOME/.local/bin:$PATH
+eval "$(uv generate-shell-completion bash)"
 
 # enable the experimental fractional scaling feature
 # gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
