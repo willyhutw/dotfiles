@@ -45,7 +45,8 @@ function essentials {
     podman \
     speech-dispatcher \
     mangohud \
-    cronie
+    cronie \
+    uv
   sudo systemctl enable --now cronie.service
 }
 
