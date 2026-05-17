@@ -11,13 +11,16 @@ if [ -z "$COMMAND" ]; then
   exit 0
 fi
 
+# Strip quoted strings to prevent false positives (e.g. tool names in commit messages)
+COMMAND_CLEAN=$(echo "$COMMAND" | sed "s/'[^']*'//g" | sed 's/"[^"]*"//g')
+
 # ─────────────────────────────────────────
 # Rule 1: kubectl — allowlist read-only operations only
 # ─────────────────────────────────────────
-KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec|rollout|cordon|uncordon'
+KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec|rollout|cordon|uncordon|apply|delete|kustomize'
 
-if echo "$COMMAND" | grep -qE 'kubectl\s+'; then
-  if ! echo "$COMMAND" | grep -qE "\b($KUBECTL_ALLOWED)\b"; then
+if echo "$COMMAND_CLEAN" | grep -qE 'kubectl\s+'; then
+  if ! echo "$COMMAND_CLEAN" | grep -qE "\b($KUBECTL_ALLOWED)\b"; then
     echo "🚨 BLOCKED: kubectl write operation must be run manually."
     echo ""
     echo "Command: $COMMAND"
@@ -34,8 +37,8 @@ fi
 # ─────────────────────────────────────────
 AWS_ALLOWED='describe|list|get|show|help|generate-cli-skeleton|wait'
 
-if echo "$COMMAND" | grep -qE 'aws\s+'; then
-  if ! echo "$COMMAND" | grep -qE "aws\s+[a-z0-9-]+\s+($AWS_ALLOWED)"; then
+if echo "$COMMAND_CLEAN" | grep -qE 'aws\s+'; then
+  if ! echo "$COMMAND_CLEAN" | grep -qE "aws\s+[a-z0-9-]+\s+($AWS_ALLOWED)"; then
     echo "🚨 BLOCKED: AWS write operation must be run manually."
     echo ""
     echo "Command: $COMMAND"
@@ -51,8 +54,8 @@ fi
 # ─────────────────────────────────────────
 HELM_ALLOWED='list|get|status|history|search|show|version|env|verify|lint|template|diff'
 
-if echo "$COMMAND" | grep -qE 'helm\s+'; then
-  if ! echo "$COMMAND" | grep -qE "helm\s+($HELM_ALLOWED)"; then
+if echo "$COMMAND_CLEAN" | grep -qE 'helm\s+'; then
+  if ! echo "$COMMAND_CLEAN" | grep -qE "helm\s+($HELM_ALLOWED)"; then
     echo "🚨 BLOCKED: helm write operation must be run manually."
     echo ""
     echo "Command: $COMMAND"
@@ -69,8 +72,8 @@ fi
 # ─────────────────────────────────────────
 TERRAFORM_ALLOWED='init|plan|validate|fmt|show|output|state list|state show|providers|version|workspace list|workspace show|graph|force-unlock'
 
-if echo "$COMMAND" | grep -qE 'terraform\s+'; then
-  if ! echo "$COMMAND" | grep -qE "terraform\s+($TERRAFORM_ALLOWED)"; then
+if echo "$COMMAND_CLEAN" | grep -qE 'terraform\s+'; then
+  if ! echo "$COMMAND_CLEAN" | grep -qE "terraform\s+($TERRAFORM_ALLOWED)"; then
     echo "🚨 BLOCKED: terraform write operation must be run manually."
     echo ""
     echo "Command: $COMMAND"
