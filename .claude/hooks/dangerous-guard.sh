@@ -17,7 +17,7 @@ COMMAND_CLEAN=$(echo "$COMMAND" | sed "s/'[^']*'//g" | sed 's/"[^"]*"//g')
 # ─────────────────────────────────────────
 # Rule 1: kubectl — allowlist read-only operations only
 # ─────────────────────────────────────────
-KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec|rollout|cordon|uncordon|apply|delete|kustomize'
+KUBECTL_ALLOWED='get|describe|logs|top|explain|diff|version|cluster-info|config view|config get-contexts|config current-context|api-resources|api-versions|events|port-forward|exec|rollout|cordon|uncordon|apply|kustomize'
 
 if echo "$COMMAND_CLEAN" | grep -qE 'kubectl\s+'; then
   if ! echo "$COMMAND_CLEAN" | grep -qE "\b($KUBECTL_ALLOWED)\b"; then
