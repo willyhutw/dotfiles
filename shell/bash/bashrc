@@ -8,8 +8,8 @@
 # prompt string
 PS1='[\u@\h \W]\$ '
 
-# dotfiles bare repo
-alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+# dotfiles repo
+alias dotfiles='cd $HOME/dotfiles'
 
 # aliases
 alias ls='ls --color=auto'

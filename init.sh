@@ -14,25 +14,19 @@ SYNCTHING_VER="v2.0.14"
 ASUSCTL_VER="6.1.12"
 SUPERGFXCTL_VER="5.2.7"
 
-# Config files live at their final paths and are checked out straight to ${HOME}
-# by the bare repo, so this script never symlinks or copies them. It only
-# installs packages and runs the steps git cannot do.
+# This repo holds the master copy of every config file. The config_* functions
+# below copy them out to where the applications actually read them. Nothing is
+# symlinked, so edits made in ~ do not flow back here on their own -- run
+# ./pull.sh to bring them in before committing.
 function preflight {
   local missing=()
-  local paths=(
-    "${HOME}/.bashrc"
-    "${HOME}/.config/nvim/init.lua"
-    "${HOME}/.config/tmux/tmux.conf"
-    "${HOME}/.config/alacritty/alacritty.toml"
-    "${HOME}/.claude/settings.json"
-  )
+  local paths=(shell/bash/bashrc claude/settings.json nvim/init.lua tmux/tmux.conf alacritty/alacritty.toml)
   for path in "${paths[@]}"; do
-    [ -f "${path}" ] || missing+=("${path}")
+    [ -e "${path}" ] || missing+=("${path}")
   done
   if [ ${#missing[@]} -ne 0 ]; then
-    echo "error: the dotfiles checkout looks incomplete. Missing:" >&2
+    echo "error: run this script from inside the dotfiles repo. Missing:" >&2
     printf '  %s\n' "${missing[@]}" >&2
-    echo "Run: git --git-dir=\$HOME/.dotfiles --work-tree=\$HOME checkout" >&2
     exit 1
   fi
 }
@@ -172,10 +166,12 @@ function install_yay {
   rm -rf ${prog}
 }
 
-# fonts.conf itself is checked out to ~/.config/fontconfig/fonts.conf
 function config_fonts {
+  local cfgDir="${HOME}/.config/fontconfig"
   echo "Installing noto fonts ..."
   sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
+  mkdir -p ${cfgDir}
+  cp -f fontconfig/fonts.conf ${cfgDir}/
   fc-cache -f
 }
 
@@ -195,6 +191,18 @@ function config_nerdfonts {
   fc-cache -f
 }
 
+function config_alacritty {
+  local cfgDir="${HOME}/.config/alacritty"
+  mkdir -p ${cfgDir}
+  cp -rf alacritty/. ${cfgDir}/
+}
+
+function config_tmux {
+  local cfgDir="${HOME}/.config/tmux"
+  mkdir -p ${cfgDir}
+  cp -rf tmux/. ${cfgDir}/
+}
+
 function config_tpm {
   local tag="3.1.0"
   local pluginDir="${HOME}/.tmux/plugins"
@@ -207,8 +215,15 @@ function config_tpm {
   fi
 }
 
-# nvim config is checked out to ~/.config/nvim; this only installs its tooling
+function config_mangohud {
+  local cfgDir="${HOME}/.config/MangoHud"
+  mkdir -p ${cfgDir}
+  cp -f mangohud/MangoHud.conf ${cfgDir}/
+}
+
 function config_nvim {
+  local cfgDir="${HOME}/.config/nvim"
+
   sudo pacman -S --needed --noconfirm \
     fd \
     ripgrep \
@@ -224,10 +239,28 @@ function config_nvim {
     --answerclean A \
     --answerdiff N \
     --removemake
+
+  mkdir -p ${cfgDir}
+  cp -rf nvim/. ${cfgDir}/
+}
+
+function config_fcitx5 {
+  local cfgDir="${HOME}/.config/fcitx5"
+  mkdir -p ${cfgDir}
+  cp -rf fcitx5/. ${cfgDir}/
+}
+
+function config_claude {
+  local cfgDir="${HOME}/.claude"
+  mkdir -p ${cfgDir}/hooks ${cfgDir}/skills
+  cp -f claude/CLAUDE.md claude/settings.json claude/statusline.sh ${cfgDir}/
+  cp -rf claude/hooks/. ${cfgDir}/hooks/
+  cp -rf claude/skills/. ${cfgDir}/skills/
+  chmod +x ${cfgDir}/statusline.sh ${cfgDir}/hooks/*.sh
 }
 
 function config_cron {
-  crontab "$(pwd)/cron/crontab"
+  crontab cron/crontab
 }
 
 function installProgs {
@@ -243,7 +276,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(cron fonts nerdfonts nvim tpm)
+  local progs=(alacritty claude cron fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
@@ -255,14 +288,20 @@ function installFormatters {
   npm install --global --force prettier
 }
 
-# ~/.bashrc, ~/.gitconfig, ~/.gitconfig-clario and ~/.ssh/config are checked out
-# by the bare repo; only the generated completions belong here
 function configShell {
+  # bash completion
   mkdir -p ${HOME}/.local/share/bash-completion/completions
   kubectl completion bash >${HOME}/.local/share/bash-completion/completions/kubectl
   k9s completion bash >${HOME}/.local/share/bash-completion/completions/k9s
   helm completion bash >${HOME}/.local/share/bash-completion/completions/helm
   argocd completion bash >${HOME}/.local/share/bash-completion/completions/argocd
+
+  # git config
+  cp -f shell/gitconfig ${HOME}/.gitconfig
+  cp -f shell/gitconfig-clario ${HOME}/.gitconfig-clario
+
+  # bashrc
+  cp -f shell/bash/bashrc ${HOME}/.bashrc
 }
 
 function installLibvirt {
@@ -308,7 +347,10 @@ function installGUIApps {
     --answerdiff N \
     --removemake
 
-  # the .desktop overrides are checked out to ~/.local/share/applications
+  # override gnome desktop applications
+  mkdir -p ${HOME}/.local/share/applications
+  cp -f desktop/applications/*.desktop ${HOME}/.local/share/applications/
+  cp -f desktop/mimeapps.list ${HOME}/.config/
   update-desktop-database ${HOME}/.local/share/applications/
 }
 
