@@ -48,7 +48,6 @@ function pull_existing {
 echo "shell:"
 pull_file "${HOME}/.bashrc" shell/bash/bashrc
 pull_file "${HOME}/.gitconfig" shell/gitconfig
-pull_file "${HOME}/.gitconfig-clario" shell/gitconfig-clario
 
 echo "config:"
 pull_dir "${HOME}/.config/alacritty" alacritty
@@ -57,13 +56,6 @@ pull_dir "${HOME}/.config/nvim" nvim
 pull_dir "${HOME}/.config/fcitx5" fcitx5
 pull_file "${HOME}/.config/fontconfig/fonts.conf" fontconfig/fonts.conf
 pull_file "${HOME}/.config/MangoHud/MangoHud.conf" mangohud/MangoHud.conf
-
-echo "claude:"
-pull_file "${HOME}/.claude/CLAUDE.md" claude/CLAUDE.md
-pull_file "${HOME}/.claude/settings.json" claude/settings.json
-pull_file "${HOME}/.claude/statusline.sh" claude/statusline.sh
-pull_dir "${HOME}/.claude/hooks" claude/hooks
-pull_dir "${HOME}/.claude/skills" claude/skills
 
 echo "desktop:"
 # fixed set of overrides -- ~/.local/share/applications also holds generated

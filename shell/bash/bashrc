@@ -8,9 +8,6 @@
 # prompt string
 PS1='[\u@\h \W]\$ '
 
-# dotfiles repo
-alias dotfiles='cd $HOME/dotfiles'
-
 # aliases
 alias ls='ls --color=auto'
 alias ll='ls -lh --color=auto'

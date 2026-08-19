@@ -17,6 +17,3 @@
   rb = rebase
   pl = pull
   ps = push
-
-[includeIf "gitdir:~/projects/clario/"]
-  path = ~/.gitconfig-clario
