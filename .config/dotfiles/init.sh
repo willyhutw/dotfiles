@@ -14,6 +14,29 @@ SYNCTHING_VER="v2.0.14"
 ASUSCTL_VER="6.1.12"
 SUPERGFXCTL_VER="5.2.7"
 
+# Config files live at their final paths and are checked out straight to ${HOME}
+# by the bare repo, so this script never symlinks or copies them. It only
+# installs packages and runs the steps git cannot do.
+function preflight {
+  local missing=()
+  local paths=(
+    "${HOME}/.bashrc"
+    "${HOME}/.config/nvim/init.lua"
+    "${HOME}/.config/tmux/tmux.conf"
+    "${HOME}/.config/alacritty/alacritty.toml"
+    "${HOME}/.claude/settings.json"
+  )
+  for path in "${paths[@]}"; do
+    [ -f "${path}" ] || missing+=("${path}")
+  done
+  if [ ${#missing[@]} -ne 0 ]; then
+    echo "error: the dotfiles checkout looks incomplete. Missing:" >&2
+    printf '  %s\n' "${missing[@]}" >&2
+    echo "Run: git --git-dir=\$HOME/.dotfiles --work-tree=\$HOME checkout" >&2
+    exit 1
+  fi
+}
+
 function essentials {
   sudo sed -i '/^\#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
 
@@ -149,13 +172,11 @@ function install_yay {
   rm -rf ${prog}
 }
 
+# fonts.conf itself is checked out to ~/.config/fontconfig/fonts.conf
 function config_fonts {
-  local fontCfgDir="${HOME}/.config/fontconfig"
-  mkdir -p ${fontCfgDir}
   echo "Installing noto fonts ..."
   sudo pacman -S --needed --noconfirm noto-fonts noto-fonts-cjk noto-fonts-emoji
   fc-cache -f
-  ln -sf "$(pwd)/fontconfig/fonts.conf" ${fontCfgDir}/fonts.conf
 }
 
 function config_nerdfonts {
@@ -174,19 +195,6 @@ function config_nerdfonts {
   fc-cache -f
 }
 
-function config_alacritty {
-  ln -sfT "$(pwd)/alacritty" "${HOME}/.config/alacritty"
-}
-
-function config_tmux {
-  ln -sfT "$(pwd)/tmux" "${HOME}/.config/tmux"
-}
-
-function config_mangohud {
-  rm -rf "${HOME}/.config/MangoHud"
-  ln -sfT "$(pwd)/mangohud" "${HOME}/.config/MangoHud"
-}
-
 function config_tpm {
   local tag="3.1.0"
   local pluginDir="${HOME}/.tmux/plugins"
@@ -199,6 +207,7 @@ function config_tpm {
   fi
 }
 
+# nvim config is checked out to ~/.config/nvim; this only installs its tooling
 function config_nvim {
   sudo pacman -S --needed --noconfirm \
     fd \
@@ -215,26 +224,10 @@ function config_nvim {
     --answerclean A \
     --answerdiff N \
     --removemake
-
-  ln -sfT "$(pwd)/nvim" "${HOME}/.config/nvim"
-}
-
-function config_fcitx5 {
-  ln -sfT "$(pwd)/fcitx5" "${HOME}/.config/fcitx5"
 }
 
 function config_cron {
   crontab "$(pwd)/cron/crontab"
-}
-
-function config_claude {
-  local claudeDir="${HOME}/.claude"
-  mkdir -p ${claudeDir}
-  ln -sf "$(pwd)/claude/CLAUDE.md" ${claudeDir}/CLAUDE.md
-  ln -sf "$(pwd)/claude/settings.json" ${claudeDir}/settings.json
-  ln -sf "$(pwd)/claude/statusline.sh" ${claudeDir}/statusline.sh
-  ln -sfT "$(pwd)/claude/hooks" ${claudeDir}/hooks
-  ln -sfT "$(pwd)/claude/skills" ${claudeDir}/skills
 }
 
 function installProgs {
@@ -250,7 +243,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty claude cron fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
+  local progs=(cron fonts nerdfonts nvim tpm)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
@@ -262,25 +255,14 @@ function installFormatters {
   npm install --global --force prettier
 }
 
+# ~/.bashrc, ~/.gitconfig, ~/.gitconfig-clario and ~/.ssh/config are checked out
+# by the bare repo; only the generated completions belong here
 function configShell {
-  # bash completion
   mkdir -p ${HOME}/.local/share/bash-completion/completions
   kubectl completion bash >${HOME}/.local/share/bash-completion/completions/kubectl
   k9s completion bash >${HOME}/.local/share/bash-completion/completions/k9s
   helm completion bash >${HOME}/.local/share/bash-completion/completions/helm
   argocd completion bash >${HOME}/.local/share/bash-completion/completions/argocd
-
-  # git config
-  ln -sf "$(pwd)/shell/gitconfig" ~/.gitconfig
-  ln -sf "$(pwd)/shell/gitconfig-clario" ~/.gitconfig-clario
-
-  # ssh config
-  mkdir -p ~/.ssh
-  ln -sf "$(pwd)/shell/ssh/config" ~/.ssh/config
-
-  # bashrc
-  ln -sf "$(pwd)/shell/bash/bashrc" ~/.bashrc
-  source ~/.bashrc
 }
 
 function installLibvirt {
@@ -326,10 +308,8 @@ function installGUIApps {
     --answerdiff N \
     --removemake
 
-  # override gnome desktop applications
-  mkdir -p ~/.local/share/applications
-  cp -f desktop/applications/*.desktop ~/.local/share/applications/
-  update-desktop-database ~/.local/share/applications/
+  # the .desktop overrides are checked out to ~/.local/share/applications
+  update-desktop-database ${HOME}/.local/share/applications/
 }
 
 function installAsusctl {
@@ -345,12 +325,14 @@ function installAsusctl {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  preflight
   essentials
   installProgs
   configProgs
   installFormatters
   configShell
   installGUIApps
+  echo "Done. Open a new shell (or run 'exec bash') to pick up the config."
 fi
 
 # === Optional ===

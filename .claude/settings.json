@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -26,6 +29,9 @@
     "type": "command",
     "command": "~/.claude/statusline.sh"
   },
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": true
+  },
   "extraKnownMarketplaces": {
     "karpathy-skills": {
       "source": {
@@ -34,12 +40,7 @@
       }
     }
   },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "teammateMode": "tmux",
   "skipDangerousModePermissionPrompt": true,
-  "enabledPlugins": {
-    "andrej-karpathy-skills@karpathy-skills": true
-  }
+  "teammateMode": "tmux",
+  "agentPushNotifEnabled": true
 }
