@@ -23,3 +23,21 @@ remove-old-trash-files=true
 [org/gnome/shell]
 enabled-extensions=['kimpanel@kde.org']
 favorite-apps=['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'firefox.desktop', 'obsidian.desktop']
+
+[org/gnome/desktop/peripherals/mouse]
+speed=0.52991452991452981
+
+[org/gnome/desktop/session]
+idle-delay=uint32 600
+
+[org/gnome/desktop/datetime]
+automatic-timezone=true
+
+[org/gnome/settings-daemon/plugins/color]
+night-light-schedule-automatic=false
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='list-view'
+
+[system/locale]
+region='en_US.UTF-8'
