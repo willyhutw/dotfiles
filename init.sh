@@ -394,9 +394,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   configShell
   installGUIApps
   installGames
+  installAsusctl
+  # === Optional ===
+  # installLibvirt
   echo "Done. Open a new shell (or run 'exec bash') to pick up the config."
 fi
-
-# === Optional ===
-# installLibvirt
-# installAsusctl
