@@ -77,21 +77,17 @@ source ./init.sh && configProgs && configShell
 |---|---|
 | `shell/bash/bashrc` | `~/.bashrc` |
 | `shell/gitconfig` | `~/.gitconfig` |
-| `shell/gitconfig-clario` | `~/.gitconfig-clario` |
 | `alacritty/` | `~/.config/alacritty/` |
 | `tmux/` | `~/.config/tmux/` |
 | `nvim/` | `~/.config/nvim/` |
 | `fcitx5/` | `~/.config/fcitx5/` |
 | `fontconfig/fonts.conf` | `~/.config/fontconfig/` |
 | `mangohud/MangoHud.conf` | `~/.config/MangoHud/` |
-| `claude/` | `~/.claude/` |
 | `desktop/applications/` | `~/.local/share/applications/` |
 | `desktop/mimeapps.list` | `~/.config/` |
-| `cron/crontab` | installed with `crontab` |
+| `zram/zram-generator.conf` | `/etc/systemd/` |
 
 `init.sh` and `archinstall.sh` are provisioning scripts and are not copied
-anywhere. `cron/crontab` is edited here and pushed out by `config_cron`; it is
-not pulled back, because `crontab -l` adds headers that churn the file.
+anywhere.
 
-Only the paths in the table are tracked. Everything else under `~/.claude`
-(sessions, credentials, caches) is deliberately left alone by both scripts.
+Only the paths in the table are tracked.

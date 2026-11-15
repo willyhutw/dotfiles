@@ -7,9 +7,6 @@ cd "$(dirname "$(realpath "$0")")"
 # The exact reverse of init.sh's config_* functions: copy the live config out of
 # ~ and back into this repo, so edits made in place can be committed. Run this
 # before `git add`, otherwise your changes never reach version control.
-#
-# Only the paths listed here are tracked. Anything else under ~/.claude
-# (sessions, credentials, caches) is deliberately left alone.
 
 function pull_file {
   local src="$1" dest="$2"
@@ -63,8 +60,8 @@ echo "desktop:"
 pull_existing "${HOME}/.local/share/applications" desktop/applications
 pull_file "${HOME}/.config/mimeapps.list" desktop/mimeapps.list
 
-# cron/crontab is edited here and pushed out with `crontab cron/crontab`,
-# not pulled back -- `crontab -l` adds headers that would churn the file.
+echo "system:"
+pull_file /etc/systemd/zram-generator.conf zram/zram-generator.conf
 
 echo
 echo "Done. Review with 'git status' / 'git diff', then commit."

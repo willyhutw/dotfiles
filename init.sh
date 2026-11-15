@@ -11,8 +11,6 @@ K9S_VER="v0.50.18"
 NVM_VER="v0.40.4"
 KUBECTL_VER="v1.35.1"
 SYNCTHING_VER="v2.0.14"
-ASUSCTL_VER="6.1.12"
-SUPERGFXCTL_VER="5.2.7"
 
 # This repo holds the master copy of every config file. The config_* functions
 # below copy them out to where the applications actually read them. Nothing is
@@ -20,7 +18,7 @@ SUPERGFXCTL_VER="5.2.7"
 # ./pull.sh to bring them in before committing.
 function preflight {
   local missing=()
-  local paths=(shell/bash/bashrc claude/settings.json nvim/init.lua tmux/tmux.conf alacritty/alacritty.toml)
+  local paths=(shell/bash/bashrc nvim/init.lua tmux/tmux.conf alacritty/alacritty.toml)
   for path in "${paths[@]}"; do
     [ -e "${path}" ] || missing+=("${path}")
   done
@@ -63,7 +61,10 @@ function essentials {
     speech-dispatcher \
     mangohud \
     cronie \
-    uv
+    uv \
+    github-cli \
+    age \
+    btrfs-progs
   sudo systemctl enable --now cronie.service
 }
 
@@ -141,22 +142,6 @@ function install_argocd {
   curl -LO https://github.com/argoproj/argo-cd/releases/download/${ARGO_VER}/${fileName}
   sudo install -o root -g root -m 0755 ${fileName} /usr/local/bin/argocd
   rm -f ${fileName}
-}
-
-function install_asusctl {
-  local prog="asusctl"
-  git clone --depth 1 --branch ${ASUSCTL_VER} https://gitlab.com/asus-linux/${prog}.git
-  (cd ${prog} && make && sudo make install)
-  sudo systemctl enable --now asusd.service
-  rm -rf ${prog}
-}
-
-function install_supergfxctl {
-  local prog="supergfxctl"
-  git clone --depth 1 --branch ${SUPERGFXCTL_VER} https://gitlab.com/asus-linux/${prog}.git
-  (cd ${prog} && make && sudo make install)
-  sudo systemctl enable --now supergfxd.service
-  rm -rf ${prog}
 }
 
 function install_yay {
@@ -250,17 +235,10 @@ function config_fcitx5 {
   cp -rf fcitx5/. ${cfgDir}/
 }
 
-function config_claude {
-  local cfgDir="${HOME}/.claude"
-  mkdir -p ${cfgDir}/hooks ${cfgDir}/skills
-  cp -f claude/CLAUDE.md claude/settings.json claude/statusline.sh ${cfgDir}/
-  cp -rf claude/hooks/. ${cfgDir}/hooks/
-  cp -rf claude/skills/. ${cfgDir}/skills/
-  chmod +x ${cfgDir}/statusline.sh ${cfgDir}/hooks/*.sh
-}
-
-function config_cron {
-  crontab cron/crontab
+# takes effect on next boot
+function config_zram {
+  sudo pacman -S --needed --noconfirm zram-generator
+  sudo cp -f zram/zram-generator.conf /etc/systemd/
 }
 
 function installProgs {
@@ -276,7 +254,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty claude cron fcitx5 fonts mangohud nerdfonts nvim tmux tpm)
+  local progs=(alacritty fcitx5 fonts mangohud nerdfonts nvim tmux tpm zram)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
@@ -298,7 +276,6 @@ function configShell {
 
   # git config
   cp -f shell/gitconfig ${HOME}/.gitconfig
-  cp -f shell/gitconfig-clario ${HOME}/.gitconfig-clario
 
   # bashrc
   cp -f shell/bash/bashrc ${HOME}/.bashrc
@@ -337,7 +314,11 @@ function installGUIApps {
     obsidian \
     xdg-utils \
     vlc \
+    vlc-plugin-ffmpeg \
     seahorse
+
+  # BambuStudio AppImage runtime
+  sudo pacman -S --needed --noconfirm fuse2 webkit2gtk-4.1
 
   yay -S --needed --noconfirm \
     google-chrome \
@@ -354,16 +335,32 @@ function installGUIApps {
   update-desktop-database ${HOME}/.local/share/applications/
 }
 
+function installGames {
+  # linux-headers is for xpadneo-dkms
+  sudo pacman -S --needed --noconfirm \
+    steam \
+    linux-headers
+
+  yay -S --needed --noconfirm \
+    pcsx2-latest-bin \
+    rpcs3-bin \
+    xpadneo-dkms \
+    --answerclean A \
+    --answerdiff N \
+    --removemake
+}
+
 function installAsusctl {
-  local progs=(asusctl supergfxctl)
-  sudo pacman -S --needed --noconfirm clang rust
-  for prog in "${progs[@]}"; do
-    if ! command -v ${prog} &>/dev/null; then
-      echo "${prog} not found! Installing ..."
-      install_${prog}
-    fi
-    echo "${prog} is ready!"
-  done
+  yay -S --needed --noconfirm \
+    asusctl-devel-git \
+    --answerclean A \
+    --answerdiff N \
+    --removemake
+
+  # asusd is a static unit pulled in by udev, so start it instead of enable
+  sudo systemctl start asusd.service
+  asusctl profile set Quiet -a
+  asusctl profile set Quiet -b
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
@@ -374,6 +371,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
   installFormatters
   configShell
   installGUIApps
+  installGames
   echo "Done. Open a new shell (or run 'exec bash') to pick up the config."
 fi
 
