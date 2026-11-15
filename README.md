@@ -11,13 +11,13 @@ actually read. Nothing is symlinked.
 No SSH key required at this stage — use HTTPS:
 
 ```bash
-git clone https://github.com/willyhutw/dotfiles.git ~/dotfiles
+git clone https://github.com/willyhutw/dotfiles.git ~/projects/willyhutw/dotfiles
 ```
 
 ### 2. Run the setup script
 
 ```bash
-~/dotfiles/init.sh
+~/projects/willyhutw/dotfiles/init.sh
 ```
 
 This installs packages and tools, then copies every config file into place.
@@ -33,7 +33,7 @@ exec bash
 ### 4. Switch remote to SSH (after setting up SSH keys)
 
 ```bash
-cd ~/dotfiles
+cd ~/projects/willyhutw/dotfiles
 git remote set-url origin git@github.com:willyhutw/dotfiles.git
 ```
 
@@ -46,7 +46,7 @@ into the repo before committing:
 
 ```bash
 vim ~/.config/nvim/init.lua   # edit in place, as usual
-cd ~/dotfiles
+cd ~/projects/willyhutw/dotfiles
 ./pull.sh                     # copy ~ -> repo
 git diff                      # check what actually changed
 git add -A && git commit -m "nvim: ..."
@@ -59,7 +59,7 @@ skip it, your edits never reach version control.**
 **Applying the repo to the machine** (e.g. after `git pull` on another host):
 
 ```bash
-cd ~/dotfiles
+cd ~/projects/willyhutw/dotfiles
 ./init.sh                     # copy repo -> ~, plus package installs
 ```
 
@@ -67,7 +67,7 @@ To only push configs out without touching packages, source the script and call
 the pieces you want:
 
 ```bash
-cd ~/dotfiles
+cd ~/projects/willyhutw/dotfiles
 source ./init.sh && configProgs && configShell
 ```
 

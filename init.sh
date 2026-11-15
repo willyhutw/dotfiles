@@ -152,6 +152,13 @@ function install_claude {
   curl -fsSL https://claude.ai/install.sh | bash
 }
 
+function install_hermes {
+  # Hermes Agent (Nous Research) official installer -> ~/.hermes/hermes-agent.
+  # --skip-setup: no wizard; config/state in ~/.hermes is restored from backup
+  # (fresh machine: run `hermes setup`, then `hermes gateway install`).
+  curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --skip-setup
+}
+
 function install_yay {
   local prog="yay-bin"
   git clone https://aur.archlinux.org/${prog}.git
@@ -255,7 +262,7 @@ function config_zram {
 }
 
 function installProgs {
-  local progs=(argocd aws btop claude helm k9s kubectl nvm syncthing yay)
+  local progs=(argocd aws btop claude helm hermes k9s kubectl nvm syncthing yay)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
