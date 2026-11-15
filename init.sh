@@ -335,6 +335,7 @@ function installGUIApps {
     xdg-utils \
     vlc \
     vlc-plugin-ffmpeg \
+    rpi-imager \
     seahorse
 
   # BambuStudio AppImage runtime
