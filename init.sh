@@ -39,6 +39,7 @@ function essentials {
     bash-completion \
     man-db \
     curl \
+    rsync \
     unzip \
     less \
     fzf \
