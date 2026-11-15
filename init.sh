@@ -148,6 +148,10 @@ function install_argocd {
   rm -f ${fileName}
 }
 
+function install_claude {
+  curl -fsSL https://claude.ai/install.sh | bash
+}
+
 function install_yay {
   local prog="yay-bin"
   git clone https://aur.archlinux.org/${prog}.git
@@ -251,7 +255,7 @@ function config_zram {
 }
 
 function installProgs {
-  local progs=(argocd aws btop helm k9s kubectl nvm syncthing yay)
+  local progs=(argocd aws btop claude helm k9s kubectl nvm syncthing yay)
   for prog in "${progs[@]}"; do
     echo "checking ${prog} ..."
     if ! command -v ${prog} &>/dev/null; then
