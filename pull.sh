@@ -42,6 +42,25 @@ function pull_existing {
   done
 }
 
+# Refresh only the keys the repo file already has; a full dump would drag in
+# window state and caches that change on every run.
+function pull_dconf {
+  local file="$1" section="" line value
+  local tmp
+  tmp="$(mktemp)"
+  while IFS= read -r line; do
+    if [[ "${line}" =~ ^\[(.*)\]$ ]]; then
+      section="${BASH_REMATCH[1]}"
+    elif [[ "${line}" =~ ^([^=]+)= ]]; then
+      value="$(dconf read "/${section}/${BASH_REMATCH[1]}")"
+      [ -n "${value}" ] && line="${BASH_REMATCH[1]}=${value}"
+    fi
+    echo "${line}" >>"${tmp}"
+  done <"${file}"
+  mv "${tmp}" "${file}"
+  echo "  ok    dconf -> ${file}"
+}
+
 echo "shell:"
 pull_file "${HOME}/.bashrc" shell/bash/bashrc
 pull_file "${HOME}/.gitconfig" shell/gitconfig
@@ -59,6 +78,7 @@ echo "desktop:"
 # entries (mimeinfo.cache, syncthing-ui.desktop, ...) that must stay out
 pull_existing "${HOME}/.local/share/applications" desktop/applications
 pull_file "${HOME}/.config/mimeapps.list" desktop/mimeapps.list
+pull_dconf gnome/settings.dconf
 
 echo "system:"
 pull_file /etc/systemd/zram-generator.conf zram/zram-generator.conf

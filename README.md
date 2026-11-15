@@ -86,6 +86,7 @@ source ./init.sh && configProgs && configShell
 | `desktop/applications/` | `~/.local/share/applications/` |
 | `desktop/mimeapps.list` | `~/.config/` |
 | `zram/zram-generator.conf` | `/etc/systemd/` |
+| `gnome/settings.dconf` | loaded with `dconf load /` |
 
 `init.sh` and `archinstall.sh` are provisioning scripts and are not copied
 anywhere.

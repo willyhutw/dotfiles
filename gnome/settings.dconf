@@ -1,0 +1,25 @@
+[org/gnome/desktop/interface]
+clock-format='24h'
+clock-show-seconds=true
+clock-show-weekday=true
+color-scheme='prefer-dark'
+show-battery-percentage=true
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
+
+[org/gnome/desktop/peripherals/touchpad]
+disable-while-typing=true
+speed=0.50427350427350426
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/privacy]
+disable-camera=true
+remember-recent-files=false
+remove-old-temp-files=true
+remove-old-trash-files=true
+
+[org/gnome/shell]
+enabled-extensions=['kimpanel@kde.org']
+favorite-apps=['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'firefox.desktop', 'obsidian.desktop']

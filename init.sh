@@ -236,6 +236,11 @@ function config_fcitx5 {
   cp -rf fcitx5/. ${cfgDir}/
 }
 
+# only the keys in the file are set; everything else keeps GNOME's defaults
+function config_gnome {
+  dconf load / <gnome/settings.dconf
+}
+
 # takes effect on next boot
 function config_zram {
   sudo pacman -S --needed --noconfirm zram-generator
@@ -255,7 +260,7 @@ function installProgs {
 }
 
 function configProgs {
-  local progs=(alacritty fcitx5 fonts mangohud nerdfonts nvim tmux tpm zram)
+  local progs=(alacritty fcitx5 fonts gnome mangohud nerdfonts nvim tmux tpm zram)
   for prog in "${progs[@]}"; do
     echo "configuring ${prog} ..."
     config_${prog}
@@ -325,6 +330,7 @@ function installGUIApps {
     google-chrome \
     visual-studio-code-bin \
     downgrade \
+    gnome-shell-extension-kimpanel-git \
     --answerclean A \
     --answerdiff N \
     --removemake
