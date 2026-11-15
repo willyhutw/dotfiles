@@ -67,6 +67,9 @@ function essentials {
     age \
     btrfs-progs
   sudo systemctl enable --now cronie.service
+
+  # keep user services (syncthing, hermes) running without a login session
+  sudo loginctl enable-linger $USER
 }
 
 function install_btop {
