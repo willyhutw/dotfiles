@@ -1,10 +1,10 @@
 [Desktop Entry]
 Name=Obsidian
-Exec=env /usr/bin/obsidian %U --force-device-scale-factor=1.5
+Exec=/usr/bin/obsidian %U --force-device-scale-factor=1.5
 Terminal=false
 Type=Application
 Icon=obsidian
-StartupWMClass=obsidian
+StartupWMClass=md.obsidian.Obsidian
 Comment=Obsidian
-MimeType=x-scheme-handler/obsidian;
+MimeType=application/pdf;text/markdown;application/x-obsidian-canvas;application/x-obsidian-base;x-scheme-handler/obsidian;
 Categories=Office;
